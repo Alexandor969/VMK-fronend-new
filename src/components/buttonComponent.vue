@@ -1,5 +1,5 @@
 <template>
-    <button class="button" :class="{buttonClass}">
+    <button class="button">
         {{buttonText}}
     </button>
 </template>
@@ -7,8 +7,7 @@
 export default {
     data() {
         return {
-            buttonText: "" as any,
-            buttonClass: "",
+            buttonText: "",
         }
     }
 }
@@ -20,7 +19,6 @@ export default {
         font-weight: 600
         font-size: 18px
         text-align: center
-        text-transform: uppercase
         border-radius: 3px
         @media screen and (max-width: var(--sm))
         font-size: 14px

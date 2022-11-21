@@ -1,12 +1,28 @@
-<script setup lang="ts">
-
-</script>
-
 <template>
-  <h1 class="logo">hello world</h1>
+  <div class="app">
+    <div class="login__container">
+      <img src="" alt="Март" class="login__logo">
+      <h1 class="login__title"></h1>
+      <form action="" class="login__form">
+        <input-component inputType="text" inputName="login" inputContent="admin" inputLabel="Логин"/>
+      </form>
+    </div>
+  </div>
 </template>
-
+<script lang="ts">
+import inputComponent from './components/inputComponent.vue';
+export default {
+  components: {
+    inputComponent
+  }
+}
+</script>
 <style lang="sass">
-  .logo
-    text-align: center
+  .app
+    padding: 100px 0
+  .login
+    &__container
+    &__logo
+    &__title
+    &__form
 </style>
