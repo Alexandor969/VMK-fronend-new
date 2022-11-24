@@ -1,56 +1,82 @@
 <template lang="">
-    <div class="input__box">
-        <span class="input__name">{{inputLabel}}</span>
-        <input v-bind:type="inputType" class="input" v-bind:name="inputName" v-bind:placeholder="inputContent"/>
-    </div>
+  <div class="input__box">
+    <span class="input__name">{{ inputLabel }}</span>
+    <input
+      :value="meaning"
+      @input="$emit('update:meaning', $event.target.value)"
+      v-bind:type="inputType"
+      class="input"
+      :class="{input__error: inputError}"
+      v-bind:name="inputName"
+      v-bind:placeholder="inputContent"
+    />
+    <span class="input__error-text" v-if="inputError">{{ inputError }}</span>
+  </div>
 </template>
 <script lang="ts">
 export default {
-    props: {
-        inputType: {
-            type: String,
-            required: true,
-            default: false,
-        },
-        inputName: {
-            type: String,
-            required: true,
-            default: false,
-        },
-        inputContent: {
-            type: String,
-            required: true,
-            default: false,
-        },
-        inputLabel: {
-            type: String,
-            required: true,
-            default: false,
-        },
+  props: {
+    inputType: {
+      type: String,
+      required: true,
+      default: false,
     },
-    data() {
-        return { }
-    }
-}
+    inputName: {
+      type: String,
+      required: true,
+      default: false,
+    },
+    inputContent: {
+      type: String,
+      required: true,
+      default: false,
+    },
+    inputLabel: {
+      type: String,
+      required: true,
+      default: false,
+    },
+    inputError: {
+      type: String,
+      required: true,
+      default: false,
+    },
+    meaning: {
+      type: String,
+      default: "",
+    },
+  },
+  data() {
+    return {};
+  },
+};
 </script>
 <style lang="sass">
-    .input
-        width: 100%
-        padding: 14px
-        border: none
-        border-radius: 3px
-        background-color: var(--gray-light)
-        color: #000
+.input
+    margin-top: 10px
+    width: 100%
+    padding: 14px
+    border: none
+    border-radius: 3px
+    background-color: var(--gray-light)
+    color: var(--gray-dark)
+    font-family: 'Roboto'
+    font-weight: 400
+    font-size: 18px
+    &::placeholder
+        color: var(--gray)
+    &__name
+        color: var(--brown)
         font-family: 'Roboto'
-        font-weight: 400
+        font-weight: 300
         font-size: 18px
-        &:placeholder
-            color: var(--gray)
-        &__box
-        &__name
-            margin-top: 10px
-            color: var(--brown)
+    &__error
+        border: 1px solid var(--red)
+        &-text
+            display: block
+            color: var(--red)
+            margin-top: 5px
             font-family: 'Roboto'
-            font-weight: 300
+            font-weight: 400
             font-size: 18px
 </style>

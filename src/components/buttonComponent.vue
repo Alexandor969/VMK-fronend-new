@@ -5,9 +5,15 @@
 </template>
 <script lang="ts">
 export default {
+    props: {
+        buttonText: {
+            type: String,
+            required: true,
+            default: false,
+        }
+    },
     data() {
         return {
-            buttonText: "",
         }
     }
 }
@@ -18,8 +24,7 @@ export default {
         font-family: 'Roboto'
         font-weight: 600
         font-size: 18px
-        text-align: center
+        border: none
         border-radius: 3px
-        @media screen and (max-width: var(--sm))
-        font-size: 14px
+        background: none
 </style>
