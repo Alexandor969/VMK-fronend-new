@@ -4,11 +4,12 @@
     <input
       :value="meaning"
       @input="$emit('update:meaning', $event.target.value)"
-      v-bind:type="inputType"
+      :type="inputType"
       class="input"
       :class="{input__error: inputError}"
-      v-bind:name="inputName"
-      v-bind:placeholder="inputContent"
+      :name="inputName"
+      :placeholder="inputContent"
+      :autocomplete="inputAutocomplete"
     />
     <span class="input__error-text" v-if="inputError">{{ inputError }}</span>
   </div>
@@ -40,6 +41,11 @@ export default {
       type: String,
       required: true,
       default: false,
+    },
+    inputAutocomplete: {
+      type: String,
+      required: false,
+      default: "off",
     },
     meaning: {
       type: String,

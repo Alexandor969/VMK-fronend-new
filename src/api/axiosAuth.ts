@@ -1,7 +1,7 @@
 // import store from '@/store'
 export default function(instance: any) {
     return {
-        signIn(payload) {
+        signIn(payload: {login: string, password: string}) {
             // store.dispatch('updateLoadApp', true);
             return instance.post('login', payload);
         },
@@ -11,7 +11,7 @@ export default function(instance: any) {
         // userData() {
         //     return instance.get('user/data');
         // },
-        login(payload) {
+        login(payload: {login: string, password: string}) {
             return instance.post('login', payload);
         },
     }
