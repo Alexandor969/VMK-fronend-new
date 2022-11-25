@@ -3,15 +3,15 @@
     <div class="login__container">
       <img src="./assets/img/svg/logo.svg" alt="Март" class="login__logo">
       <h2 class="login__title">Вход в приложение</h2>
-      <form action="" class="login__form">
-        <input-component v-model:meaning="login" inputType="text" inputName="login" inputContent="admin" inputLabel="Логин" :inputErrorText="errorLogin" />
-        <input-component v-model:meaning="password" inputType="password" inputName="password" inputContent="********" inputLabel="Пароль" :inputErrorText="errorPassword" />
+      <form @submit.prevent="validate" action="" class="login__form">
+        <input-component v-model:meaning="values.login" @input="errors.login= ''" inputType="text" inputName="login" inputContent="admin" inputLabel="Логин" :inputError="errors.login" />
+        <input-component v-model:meaning="values.password" @input="errors.password= ''"  inputType="password" inputName="password" inputAutocomplete="on" inputContent="********" inputLabel="Пароль" :inputError="errors.password" />
         <label class="login__save-box">
           <input type="checkbox" class="login__save">
           <span class="login__save-text">Запомнить меня</span>
         </label>
         <div class="login__button-box">
-          <button-component buttonText="Начать работу" class="login__button"/>
+          <button-component buttonText="Начать работу" class="login__button" />
           <a href="" class="login__link">Забыли пароль?</a>
         </div>
       </form>
@@ -23,6 +23,7 @@ import inputComponent from './components/inputComponent.vue';
 import buttonComponent from './components/buttonComponent.vue';
 import * as yup from "yup"
 import { useToast } from "vue-toastification";
+import axios from './api'
 export default {
   components: {
     inputComponent,
@@ -31,10 +32,14 @@ export default {
   data() {
     return {
       toast: useToast(),
-      login: "",
-      password: "",
-      errorLogin:"",
-      errorPassword:"",
+      values: {
+        login: "",
+        password: "",
+      },
+      errors: {
+        login: "",
+        password: "",
+      },
       loginShema: yup.object({
         login: yup.string().required('Введите логин'),
         password: yup.string().required('Введите пароль'),
@@ -42,6 +47,40 @@ export default {
     }
   },
   methods: {
+    validate() {
+      this.loginShema
+      .validate(this.values, { abortEarly: false })
+        .then(() => {
+          this.errors = {
+            login: "",
+            password: ""
+          }
+          axios.auth.login(this.values)
+          .then((res: any) => {
+            // localStorage.setItem("access_token", res.data.accessToken)
+            document.cookie = `"access_token" = ${res.data.accessToken}; samesite=strict; secure=true; max-age=3600`
+          }
+          )
+          .catch( (res: any) => {
+            this.toast.error(`${res.response.data.message}`, {
+              // @ts-ignore
+              position: "bottom-right",
+              timeout: 2000,
+              closeOnClick: true,
+              pauseOnFocusLoss: true,
+              pauseOnHover: true,
+            })
+          }
+          )
+        })
+        .catch((err: any) => {
+          // @ts-ignore
+          err.inner.forEach((error) => {
+            // @ts-ignore
+            this.errors[error.path] = error.message;
+          });
+        })
+    }
   }
 }
 </script>
