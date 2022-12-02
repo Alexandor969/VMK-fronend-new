@@ -1,6 +1,8 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router"
-import Main from "../pages/Main.vue"
-import Login from "../pages/Login.vue"
+import Main from "../pages/Page.vue"
+import Authorization from "../pages/Authorization.vue"
+import login from "../components/loginComponent.vue"
+
 
 
 
@@ -8,13 +10,17 @@ const routes: Array<RouteRecordRaw> = [
     {
         path: '/',
         alias: '/Main',
-        name: 'Main',
         component: Main
     },
     {
-        path: '/Login',
-        name: 'Login',
-        component: Login
+        path: '/auth',
+        component: Authorization,
+        children: [
+            {
+              path: '/auth',
+              component: login
+            },
+        ]
     },
 ]
 

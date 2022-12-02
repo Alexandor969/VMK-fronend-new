@@ -1,13 +1,12 @@
-<template>
-    <div class="login-page">
-      <div class="login__container">
+<template >
+    <div class="login__container">
         <img :src="images.logo" alt="Март" class="login__logo">
         <h2 class="login__title">Вход в приложение</h2>
-        <form @submit.prevent="validate" action="" class="login__form">
+        <form @submit.prevent="validate" action="" method="post" class="login__form">
           <input-component v-model:meaning="values.login" @input="errors.login= ''" inputType="text" inputName="login" inputContent="admin" inputLabel="Логин" :inputError="errors.login" />
           <input-component v-model:meaning="values.password" @input="errors.password= ''"  inputType="password" inputName="password" inputAutocomplete="on" inputContent="********" inputLabel="Пароль" :inputError="errors.password" />
           <label class="login__save-box">
-            <input type="checkbox" class="login__save">
+            <input v-model="cheked" type="checkbox" class="login__save">
             <span class="login__save-text">Запомнить меня</span>
           </label>
           <div class="login__button-box">
@@ -15,24 +14,26 @@
             <a href="" class="login__link">Забыли пароль?</a>
           </div>
         </form>
-      </div>
     </div>
-  </template>
-  <script lang="ts">
-  import logo from "../assets/img/svg/logo.svg"
+</template>
+<script lang="ts">
+import logo from "../assets/img/svg/logo.svg"
 
-  import inputComponent from '../components/inputComponent.vue';
-  import buttonComponent from '../components/buttonComponent.vue';
-  import * as yup from "yup"
-  import { useToast } from "vue-toastification";
-  import axios from '../api'
-  export default {
+import inputComponent from '../uiComponents/inputComponent.vue';
+import buttonComponent from '../uiComponents/buttonComponent.vue';
+import * as yup from "yup"
+import { useToast } from "vue-toastification";
+import axios from '../api'
+export default {
     components: {
       inputComponent,
       buttonComponent,
     },
     data() {
       return {
+        images: {
+          logo: logo
+        },
         toast: useToast(),
         values: {
           login: "",
@@ -46,9 +47,7 @@
           login: yup.string().required('Введите логин'),
           password: yup.string().required('Введите пароль'),
         }),
-        images: {
-          logo: logo
-        }
+        cheked: false
       }
     },
     methods: {
@@ -62,8 +61,13 @@
             }
             axios.auth.login(this.values)
             .then((res: any) => {
-              // localStorage.setItem("access_token", res.data.accessToken)
-              document.cookie = `"access_token" = ${res.data.accessToken}; samesite=strict; secure=true; max-age=3600`
+              if(this.cheked == true) {
+                document.cookie = `"access_token" = ${res.data.accessToken}; samesite=strict; secure=true; max-age=3600`
+              } else {
+                document.cookie = `"access_token" = ${res.data.accessToken}; samesite=strict; secure=true; max-age=3600`
+              }
+              localStorage.setItem("roles", res.data.user.roles)
+
             }
             )
             .catch( (res: any) => {
@@ -87,53 +91,63 @@
           })
       }
     }
-  }
-  </script>
-  <style lang="sass">
-    .login
-      &-page
-        padding: 100px 0
-      &__container
+}
+</script>
+<style lang="sass">
+.login
+    &__container
         max-width: 426px
         width: 100%
         margin: 0 auto
         padding: 0 20px
-      &__logo
+    &__logo
         width: 230px
         margin: 0 auto
-      &__title
+    &__title
         margin-top: 100px
         color: var(--brown)
         font-family: 'Roboto'
         font-weight: 500
         font-size: 24px
         text-align: center
-      &__form
+    &__form
         margin-top: 30px
         width: 100%
         display: flex
         flex-direction: column
         gap: 30px
-      &__save
-        display: block
+    &__save
+        display: none
+        &:checked ~ .login__save-text::before
+          background: url(../assets/img/svg/icon/cheked.svg) no-repeat center center
+          border-color: var(--gold)
         &-box
-          display: flex
-          align-items: center
+            display: flex
+            align-items: center
         &-text
-          display: block
-          margin-left: 10px
-          color: var(--brown)
-          font-family: 'Roboto'
-          font-weight: 400
-          font-size: 18px
-      &__button
+            display: block
+            color: var(--brown)
+            font-family: 'Roboto'
+            font-weight: 400
+            font-size: 18px
+            display: flex
+            align-items: center
+            &::before
+              display: block
+              content: ''
+              width: 18px
+              height: 18px
+              border: 2px solid var(--brown)
+              border-radius: 3px
+              margin-right: 10px
+    &__button
         width: 100%
         text-align: center
         padding: 14px 20px
         background-color: var(--gold)
         color: var(--white)
         text-transform: uppercase
-      &__link
+    &__link
         display: block
         margin-top: 15px
         width: 100%
@@ -145,4 +159,4 @@
         border: 1px solid var(--gray)
         border-radius: 3px
         color: var(--gray)
-  </style>
+</style>
