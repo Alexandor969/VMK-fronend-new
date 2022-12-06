@@ -2,6 +2,9 @@
     <header class="header">
         <div class="container">
             <img :src="images.logo" alt="logo" class="header__logo">
+            <button class="header__menu-button" :class="{open: menuOpen}" @click="toggleButton">
+                <span></span>
+            </button>
             <div class="header__search-box">
                 <icon-component class="header__search-image"/>
                 <input type="text" placeholder="Поиск" class="header__search">
@@ -24,14 +27,26 @@ export default {
     components: {
         iconComponent
     },
+    props: {
+        menuOpen: {
+            type: Boolean,
+            required:true,
+            default: false
+        }
+    },
     data() {
         return {
             images: {
                 logo: headerLogo,
                 profile: headerProfile
             },
-        };
+        }
     },
+    methods: {
+        toggleButton() {
+            this.$emit('openMenu', open)
+        },
+    }
 }
 </script>
 <style lang="sass">
@@ -39,6 +54,8 @@ export default {
         width: 100%
         background-color: var(--gray-dark)
         padding: 22px 0
+        overflow-x: hidden
+        flex: none
         .container
             max-width: none
             display: flex
@@ -46,9 +63,68 @@ export default {
         &__logo
             display: block
             width: 152px
+            @media (max-width: 760px)
+                display: none
+        &__menu
+            &-button
+                width: 30px
+                height: 100%
+                position: relative
+                border: none
+                cursor: pointer
+                background: none
+                display: none
+                @media (max-width: 760px)
+                    display: block
+                span
+                    height: 2px
+                    width: 100%
+                    top: 0px
+                    left: 0
+                    background-color: #fff
+                    border-radius: 2px
+                    position: absolute
+                    transition-duration: 0.25s
+                    transition-delay: 0.25s
+                    &:before
+                        left: 0
+                        position: absolute
+                        top: -8px
+                        height: 2px
+                        width: 100%
+                        background-color: #fff
+                        content: ""
+                        border-radius: 2px
+                        transition-duration: 0.25s
+                        transition: transform 0.25s, top 0.25s 0.25s
+                    &:after
+                        left: 0
+                        position: absolute
+                        top: 8px
+                        height: 2px
+                        width: 100%
+                        background-color: #fff
+                        content: ""
+                        border-radius: 2px
+                        transition-duration: 0.25s
+                        transition: transform 0.25s, top 0.25s 0.25s
+                &.open
+                    span
+                        transition-duration: 0.1s
+                        transition-delay: 0.25s
+                        background: transparent
+                        &:before
+                            transition: top 0.25s, transform 0.25s 0.25s
+                            top: 0px
+                            transform: rotateZ(-45deg)
+                        &:after
+                            transition: top 0.4s, transform 0.25s 0.25s
+                            top: 0px
+                            transform: rotateZ(45deg)
         &__search
             display: block
-            width: 400px
+            max-width: 400px
+            width: 100%
             padding: 15px 14px
             padding-left: 52px
             background-color: var(--brown-light)
@@ -63,6 +139,9 @@ export default {
             &-box
                 position: relative
                 margin-left: 50px
+                flex: 1
+                @media (max-width: 760px)
+                    margin-left: 20px
             &-image
                 position: absolute
                 left: 14px

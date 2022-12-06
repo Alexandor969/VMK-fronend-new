@@ -1,10 +1,10 @@
 <template>
     <div class="page">
-        <header-component/>
+        <header-component @openMenu="openMenu" :menuOpen="menu"/>
         <main class="main">
-            <sidebar-component/>
+            <sidebar-component :menu="menu"/>
             <div class="content">
-                <main-component/>
+                <router-view></router-view>
             </div>
         </main>
     </div>
@@ -14,28 +14,41 @@
 
 import sidebarComponent from "../components/sidebarComponent.vue"
 import headerComponent from "../components/headerComponent.vue";
-import mainComponent from "../components/mainComponent.vue";
 export default {
     components: {
         sidebarComponent,
         headerComponent,
-        mainComponent
     },
     data() {
         return {
+            menu: false
+        }
+    },
+    methods: {
+        openMenu() {
+            this.menu = !this.menu
         }
     }
 }
 </script>
 <style lang="sass">
     .page
+        height: 100vh
         position: relative
         overflow-y: hidden
-    .main
-        height: 90vh
         display: flex
+        flex-direction: column
+        @media (max-width: 330px)
+            height: 105vh
+    .main
+        display: flex
+        height: 100%
+        flex-grow: 1
     .content
         width: 100%
-        padding: 40px 20px 0px 40px
+        padding: 40px 20px 80px 40px
+        overflow-x: hidden
         overflow-y: auto
+        @media (max-width: 560px)
+            padding-left: 20px
 </style>

@@ -116,12 +116,19 @@ input[type=text]::-ms-reveal
     width: 0
     height: 0
 
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button
+    -webkit-appearance: none
+
+input[type='number']
+    -moz-appearance: textfield
+
+
 .container
     width: 100%
     max-width: 1210px
     padding: 0 20px
     margin: 0 auto
-
 // .m
 //     &t
 //         $sizes: 100, 50

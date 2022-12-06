@@ -1,33 +1,33 @@
 <template>
-    <aside class="sidebar">
+    <aside class="sidebar" :class="{open: menu}">
         <nav class="sidebar__list">
-            <a href="#" class="sidebar__item">
+            <router-link to="/" class="sidebar__item">
                 <icon-component class="sidebar__icon" name="home"/>
-                Главная страница
-            </a>
+                <span>Главная страница</span>
+            </router-link>
             <a href="#" class="sidebar__item">
                 <icon-component class="sidebar__icon" name="profile"/>
-                Мой профиль
+                <span>Мой профиль</span>
             </a>
             <a href="#" class="sidebar__item">
                 <icon-component class="sidebar__icon" name="paper"/>
-                Список заказов
+                <span>Список заказов</span>
             </a>
             <a href="#" class="sidebar__item">
                 <icon-component class="sidebar__icon" name="users"/>
-                Пользователи
+                <span>Пользователи</span>
             </a>
             <a href="#" class="sidebar__item sidebar__item_mt">
                 <icon-component class="sidebar__icon" name="settings"/>
-                Настройки
+                <span>Настройки</span>
             </a>
             <a href="#" class="sidebar__item">
                 <icon-component class="sidebar__icon" name="basket"/>
-                Корзина
+                <span>Корзина</span>
             </a>
             <a href="https://mart53.ru/" class="sidebar__item sidebar__item_link">
                 <icon-component class="sidebar__icon" name="browser"/>
-                Перейти на сайт
+                <span>Перейти на сайт</span>
             </a>
         </nav>
     </aside>
@@ -37,18 +37,49 @@ import iconComponent from '../uiComponents/iconComponent.vue';
 export default {
     components: {
         iconComponent
+    },
+    props: {
+        menu: {
+            type: Boolean,
+            required: true,
+        }
     }
 }
 </script>
 <style lang="sass">
     .sidebar
         width: 300px
+        flex: none
         height: 100%
-        background-color: var(--gray-light)
+        @media (max-width: 760px)
+            position: relative
+            width: 84px
+            &.open
+                .sidebar__list
+                    width: 300px
+                    @media (max-width: 360px)
+                        width: 100%
+                .sidebar__item span
+                    opacity: 1
+        @media (max-width: 560px)
+            width: 0px
+        @media (max-width: 360px)
+            position: fixed
+            width: 100%
         &__list
             display: flex
             flex-direction: column
             height: 100%
+            background-color: var(--gray-light)
+            overflow-x: hidden
+            overflow-y: auto
+            transition: .3s ease-in-out
+            transition-property: width
+            @media (max-width: 760px)
+                width: 84px
+                position: absolute
+            @media (max-width: 560px)
+                width: 0px
         &__item
             display: flex
             align-items: center
@@ -60,8 +91,20 @@ export default {
             color: var(--brown)
             transition: .3s ease-in-out
             transition-property: background-color, color
+            @media (max-width: 760px)
+            padding: 28px 25px
+            span
+                display: block
+                flex-shrink: 0
+                margin-left: 10px
+                transition: .3s ease-in-out
+                transition-property: opacity
+                @media (max-width: 760px)
+                    opacity: 0
             &_mt
                 margin-top: auto
+                @media (max-width: 360px)
+                    margin-top: 0
             &_link
                 color: var(--gold)
                 text-decoration: underline
@@ -76,4 +119,7 @@ export default {
             margin-right: 16px
             transition: .3s ease-in-out
             transition-property: color
+            flex: none
+            @media (max-width: 760px)
+                margin-right: 0
         </style>
