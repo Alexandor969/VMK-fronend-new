@@ -41,8 +41,6 @@ export default {
     },
     inputLabel: {
       type: String,
-      required: true,
-      default: false,
     },
     inputError: {
       type: String,

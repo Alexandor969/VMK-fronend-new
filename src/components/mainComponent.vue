@@ -22,8 +22,8 @@
 
 </template>
 <script lang="ts">
-import orderCardComponent from '../uiComponents/orderCardComponent.vue';
-import popupComponent from '../uiComponents/popupComponent.vue';
+import orderCardComponent from '../ui/orderCardComponent.vue';
+import popupComponent from '../ui/popupComponent.vue';
 export default {
     components: {
         orderCardComponent,

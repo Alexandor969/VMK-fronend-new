@@ -33,7 +33,7 @@
     </aside>
 </template>
 <script lang="ts">
-import iconComponent from '../uiComponents/iconComponent.vue';
+import iconComponent from '../ui/iconComponent.vue';
 export default {
     components: {
         iconComponent

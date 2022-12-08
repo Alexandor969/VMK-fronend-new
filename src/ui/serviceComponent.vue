@@ -1,10 +1,7 @@
 <template>
     <div class="service__item">
-        <button class="service__delete">
-            Удалить услугу
-            <icon-component name="delete" width="20" height="20" class="service__delete-icon"/>
-        </button>
-        <span class="service__index">2</span>
+        <buttonComponent class="service__delete" buttonText="Удалить услугу" :order=true size="20" name="delete" @click.prevent="remove"/>
+        <span class="service__index">{{index}}</span>
         <input-component  inputType="text" inputName="service" inputContent="Ограда" inputLabel="Наименование услуги" class="service__checklist"/>
         <div class="service__parametrs">
             <input-component  inputType="number" inputName="size" inputContent="100" inputLabel="Размер"/>
@@ -17,11 +14,27 @@
 <script lang="ts">
 import iconComponent from './iconComponent.vue';
 import inputComponent from './inputComponent.vue';
+import buttonComponent from './buttonComponent.vue';
 
 export default {
  components: {
     inputComponent,
-    iconComponent
+    iconComponent,
+    buttonComponent
+ },
+ props: {
+    index: {
+        type: Number
+    }
+ },
+ emits: {
+    remove: null
+ },
+ methods: {
+    remove() {
+        this.$emit("remove")
+        console.log("asdsd")
+    }
  }
 }
 </script>
@@ -40,13 +53,11 @@ export default {
             display: flex
             justify-content: center
             align-items: center
+            gap: 10px
             font-family: 'Roboto'
             font-weight: 500
             font-size: 14px
             color: var(--gray)
-            &-icon
-                display: block
-                margin-left: 10px
         &__index
             display: block
             width: 100%

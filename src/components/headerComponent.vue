@@ -21,7 +21,7 @@
 <script lang="ts">
 import headerLogo from "../assets/img/svg/headerLogo.svg"
 import headerProfile from "../assets/img/svg/headerProfile.svg"
-import iconComponent from "../uiComponents/iconComponent.vue"
+import iconComponent from "../ui/iconComponent.vue"
 
 export default {
     components: {

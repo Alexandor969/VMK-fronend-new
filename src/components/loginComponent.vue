@@ -19,8 +19,8 @@
 <script lang="ts">
 import logo from "../assets/img/svg/logo.svg"
 
-import inputComponent from '../uiComponents/inputComponent.vue';
-import buttonComponent from '../uiComponents/buttonComponent.vue';
+import inputComponent from '../ui/inputComponent.vue';
+import buttonComponent from '../ui/buttonComponent.vue';
 import * as yup from "yup"
 import { useToast } from "vue-toastification";
 import axios from '../api'
