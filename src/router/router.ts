@@ -4,6 +4,7 @@ import Authorization from "../pages/Authorization.vue"
 import login from "../components/loginComponent.vue"
 import createOrder from "../components/createOrderComponent.vue"
 import main from "../components/mainComponent.vue"
+import orders from "../components/ordersComponent.vue"
 
 
 
@@ -22,6 +23,10 @@ const routes: Array<RouteRecordRaw> = [
               path: '/createOrder',
               component: createOrder
             },
+            {
+              path: '/orders',
+              component: orders
+            }
         ]
     },
     {

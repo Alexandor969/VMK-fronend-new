@@ -1,5 +1,6 @@
 @import "vue-toastification/dist/index.css"
 @import '@vuepic/vue-datepicker/dist/main.css'
+@import 'vue-select/dist/vue-select.css'
 
 *
     box-sizing: border-box
@@ -22,7 +23,7 @@
     --gold-light:#F9F6F0
     --gray:#B0B0B0
     --gray-dark:#4F4F4F
-    --grey-prelight: #DEDEDE
+    --gray-prelight: #DEDEDE
     --gray-light:#F2F2F2
     --xxl: 1400px
     --xl: 1100px
@@ -30,6 +31,55 @@
     --md: 720px
     --sm: 540px
     --xsm: 400px
+    /* Font */
+    --vs-font-size: 16px
+    --vs-line-height: inherit
+
+    /* Disabled State */
+    --vs-state-disabled-bg: rgb(248, 248, 248)
+    --vs-state-disabled-color: var(--vs-colors--light)
+    --vs-state-disabled-controls-color: var(--vs-colors--light)
+    --vs-state-disabled-cursor: not-allowed
+
+    /* Borders */
+    --vs-border-color: var(--vs-colors--lightest)
+    --vs-border-width: 0px
+    --vs-border-style: solid
+    --vs-border-radius: 4px
+
+    /* Component Controls: Clear, Open Indicator */
+    --vs-controls-color: var(--brown)
+    --vs-controls-size: 1
+    --vs-controls--deselect-text-shadow: 0 1px 0 #fff
+
+    /* Selected */
+    --vs-selected-bg: #f0f0f0
+    --vs-selected-color: var(--brown)
+    --vs-selected-border-color: none
+    --vs-selected-border-style: none
+    --vs-selected-border-width: none
+
+    /* Dropdown */
+    --vs-dropdown-bg: #fff
+    --vs-dropdown-color: var(--brown)
+    --vs-dropdown-z-index: 1000
+    --vs-dropdown-min-width: 160px
+    --vs-dropdown-max-height: 350px
+    --vs-dropdown-box-shadow: 0px 3px 6px 0px var(--vs-colors--darkest)
+
+    /* Options */
+    --vs-dropdown-option-bg: var(--brown)
+    --vs-dropdown-option-color: var(--vs-dropdown-color)
+    --vs-dropdown-option-padding: 3px 20px
+
+    /* Active State */
+    --vs-dropdown-option--active-bg: nine
+    --vs-dropdown-option--active-color: var(--gold)
+
+    /* Deselect State */
+    --vs-dropdown-option--deselect-bg: #fb5858
+    --vs-dropdown-option--deselect-color: #fff
+
 
 html.is-locked
     height: calc(var(--window-height) - 1px)
@@ -169,8 +219,8 @@ input[type='number']
 .dp__theme_light
    --dp-background-color: var(--gray-light)
    --dp-text-color: var(--gray-dark)
-   --dp-hover-color: #f3f3f3
-   --dp-hover-text-color: #212121
+   --dp-hover-color: #EEEAE0
+   --dp-hover-text-color: var(--gold)
    --dp-hover-icon-color: #959595
    --dp-primary-color: var(--gold)
    --dp-primary-text-color: #f8f5f5
@@ -205,7 +255,7 @@ $dp__cell_padding: 5px !default // padding in the cell
 $dp__common_padding: 10px !default
 $dp__input_padding: 14px 14px // padding in the input
 $dp__input_icon_padding: 35px !default // Padding on the left side of the input if icon is present
-$dp__menu_min_width: 260px !default // Adjust the min width of the menu
+$dp__menu_min_width: 200px !default // Adjust the min width of the menu
 $dp__action_buttons_padding: 2px 5px !default // Adjust padding for the action buttons in action row
 $dp__row_margin: 5px 0 !default // Adjust the spacing between rows in the calendar
 $dp__calendar_header_cell_padding: 0.5rem !default // Adjust padding in calendar header cells
@@ -217,3 +267,9 @@ $dp__time_inc_dec_button_size: 32px !default // Sizing for arrow buttons in the 
 $dp__font_size: 1rem !default // overall font-size
 $dp__preview_font_size: 0.8rem !default // font size of the date preview in the action row
 $dp__time_font_size: 2rem !default // font size in the time picker
+
+.date__day
+    color: var(--gray)
+
+.gold-color
+    color: var(--gold)

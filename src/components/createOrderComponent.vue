@@ -1,6 +1,6 @@
 <template >
     <div page-card>
-        <h2 class="create-order__title">Наряд-заказ на благоустройство могилы <span>№2131541</span></h2>
+        <h2 class="create-order__title">Наряд-заказ на благоустройство могилы</h2>
         <span class="create-order__required">* — поля, обязательные для заполнения</span>
         <form action="" class="create-order__form">
             <div class="create-order__item information" >
@@ -131,11 +131,23 @@
                     <div class="create-order__date">
                         <div class="col">
                             <span class="payment__label">Начало работ</span>
-                            <Datepicker class="create-order__date-item" v-model="date.beginning" :enable-time-picker="false" locale="ru" />
+                            <Datepicker class="create-order__date-item" auto-apply  v-model="date.beginning" :enable-time-picker="false" locale="ru">
+                                <template #calendar-header="{ index, day }">
+                                    <div class="date__day" :class="index === 5 || index === 6 ? 'gold-color' : ''">
+                                      {{ day }}
+                                    </div>
+                                  </template>
+                            </Datepicker>
                         </div>
                         <div class="col">
                             <span class="payment__label">Окончание работ</span>
-                            <Datepicker class="create-order__date-item" v-model="date.end" :enable-time-picker="false" locale="ru" />
+                            <Datepicker class="create-order__date-item" auto-apply v-model="date.end" :enable-time-picker="false" locale="ru">
+                                <template #calendar-header="{ index, day }">
+                                    <div class="date__day" :class="index === 5 || index === 6 ? 'gold-color' : ''">
+                                      {{ day }}
+                                    </div>
+                                  </template>
+                            </Datepicker>
                         </div>
                     </div>
                     <div class="create-order__item create-order__comment">
@@ -204,8 +216,6 @@ export default {
             font-weight: 500
             font-size: 32px
             color: var(--brown)
-            span
-                color: var(--gold)
             &_min
                 font-family: 'Roboto'
                 font-weight: 500

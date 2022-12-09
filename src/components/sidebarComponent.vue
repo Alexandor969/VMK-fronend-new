@@ -9,10 +9,10 @@
                 <icon-component class="sidebar__icon" name="profile"/>
                 <span>Мой профиль</span>
             </a>
-            <a href="#" class="sidebar__item">
+            <router-link to="/orders" class="sidebar__item">
                 <icon-component class="sidebar__icon" name="paper"/>
                 <span>Список заказов</span>
-            </a>
+            </router-link>
             <a href="#" class="sidebar__item">
                 <icon-component class="sidebar__icon" name="users"/>
                 <span>Пользователи</span>

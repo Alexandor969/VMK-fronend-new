@@ -4,6 +4,7 @@
             <order-card-component @click="isOrderTypeOpen" class="order-card_vertical" text="Создать заказ" size="70" name="paperAdd"/>
             <order-card-component class="order-card_vertical" text="Черновики" size="70" name="paperBig"/>
         </div>
+        <order-list-component :margin= true :link= true />
         <popup-component :isOpen="isOrderType" @close="(isOrderType = false)">
             <template #title>
                     Выберите тип заказа
@@ -24,10 +25,12 @@
 <script lang="ts">
 import orderCardComponent from '../ui/orderCardComponent.vue';
 import popupComponent from '../ui/popupComponent.vue';
+import orderListComponent from '../ui/orderListComponent.vue';
 export default {
     components: {
         orderCardComponent,
-        popupComponent
+        popupComponent,
+        orderListComponent
     },
     data() {
         return {
