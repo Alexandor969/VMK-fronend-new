@@ -1,31 +1,30 @@
 <template>
-    <div class="order-list" :class="{mt: margin}">
-        <div class="order-list__title-box">
-            <h2 class="order-list__title">Список заказов</h2>
-            <a href="#" class="order-list__link" v-if="link">смотреть все</a>
-            <div class="order-list__sort-box" v-if="sorting">
-                <div class="order-list__select-box">
-                    <icon-component class="order-list__icon" name="select" width="20" height="20"/>
+    <div class="users-list">
+        <div class="users-list__title-box">
+            <h2 class="users-list__title">Список пользователей</h2>
+            <div class="users-list__sort-box">
+                <div class="users-list__select-box">
+                    <icon-component class="users-list__icon" name="select" width="20" height="20"/>
                     <v-select v-model="selected" :options="sort" label="title" :searchable="false"/>
                 </div>
-                <div class="order-list__sort">
-                    <icon-component class="order-list__icon" name="sort" width="20" height="20"/>
-                    <button class="order-list__sort-button">по возрастанию</button>
+                <div class="users-list__sort">
+                    <icon-component class="users-list__icon" name="sort" width="20" height="20"/>
+                    <button class="users-list__sort-button">по возрастанию</button>
                 </div>
             </div>
         </div>
-        <ul class="order-list__list">
-            <li class="order-list__item">
-                <div class="order-list__content">
-                    <span class="order-list__text">№1</span>
-                    <span class="order-list__text">Иванов Иван Иванович</span>
-                    <span class="order-list__text order-list__text_gray">Благоустройство могилы</span>
-                    <span class="order-list__text">#12235673</span>
-                    <span class="order-list__text">В работе</span>
+        <ul class="users-list__list">
+            <li class="users-list__item">
+                <div class="users-list__content">
+                    <span class="users-list__text">№1</span>
+                    <span class="users-list__text">Иванов Иван Иванович</span>
+                    <span class="users-list__text users-list__text_gold">nickname</span>
+                    <span class="users-list__text">testmail@mail.ru</span>
+                    <span class="users-list__text">Менеджер</span>
                 </div>
-                <div class="order-list__action-box">
-                    <button class="order-list__action">
-                        <icon-component class="order-list__icon" name="action" width="32" height="32"/>
+                <div class="users-list__action-box">
+                    <button class="users-list__action">
+                        <icon-component class="users-list__icon" name="action" width="32" height="32"/>
                     </button>
                 </div>
             </li>
@@ -37,17 +36,6 @@ import iconComponent from './iconComponent.vue';
 export default {
     components: {
         iconComponent
-    },
-    props: {
-        margin: {
-            type: Boolean
-        },
-        link: {
-            type: Boolean
-        },
-        sorting: {
-            type: Boolean
-        }
     },
     data() {
         return {
@@ -63,11 +51,10 @@ export default {
 }
 </script>
 <style lang="sass">
-    .mt
-        margin-top: 80px
-    .order-list
-        max-width: 1010px
+    .users-list
+        max-width: 1050px
         width: 100%
+        margin-top: 60px
         &__title
             display: block
             font-family: 'Roboto'
@@ -124,6 +111,7 @@ export default {
             display: block
             margin-top: 30px
             width: 100%
+            max-width: 1010px
         &__item
             width: 100%
             display: flex
@@ -142,8 +130,8 @@ export default {
             font-weight: 400
             font-size: 18px
             color: var(--brown)
-            &_gray
-                color: var(--gray)
+            &_gold
+                color: var(--gold)
         &__action
             border: none
             background: none

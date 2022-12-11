@@ -5,6 +5,8 @@ import login from "../components/loginComponent.vue"
 import createOrder from "../components/createOrderComponent.vue"
 import main from "../components/mainComponent.vue"
 import orders from "../components/ordersComponent.vue"
+import users from "../components/usersComponent.vue"
+import settings from "../components/settingsComponent.vue"
 
 
 
@@ -26,7 +28,15 @@ const routes: Array<RouteRecordRaw> = [
             {
               path: '/orders',
               component: orders
-            }
+            },
+            {
+              path: '/users',
+              component: users
+            },
+            {
+              path: '/settings',
+              component: settings
+            },
         ]
     },
     {

@@ -29,10 +29,7 @@
                     </div>
                     <div class="filter__content">
                         <div class="filter__list">
-                            <label class="filter__item">
-                                <input type="checkbox" class="filter__check">
-                                <span class="filter__check-text">В работе</span>
-                            </label>
+                            <checkbox-component checkText="В работе"/>
                         </div>
                     </div>
                 </div>
@@ -45,11 +42,13 @@
 import orderListComponent from '../ui/orderListComponent.vue';
 import iconComponent from '../ui/iconComponent.vue';
 import buttonComponent from '../ui/buttonComponent.vue';
+import checkboxComponent from '../ui/checkboxComponent.vue';
 export default {
     components: {
         orderListComponent,
         iconComponent,
-        buttonComponent
+        buttonComponent,
+        checkboxComponent
     },
     data() {
         return {
@@ -117,21 +116,4 @@ export default {
                 border: none
             .dp__range_between
                 color: var(--gold)
-        &__check
-            display: none
-            &:checked ~ .filter__check-text:before
-                background: url(../assets/img/svg/icon/cheked.svg) no-repeat center center
-            &-text
-                display: flex
-                align-items: center
-                font-family: 'Roboto'
-                font-weight: 400
-                font-size: 14px
-                &:before
-                    display: block
-                    content: ''
-                    width: 15px
-                    height: 15px
-                    border: 2px solid var(--gold)
-                    margin-right: 10px
 </style>

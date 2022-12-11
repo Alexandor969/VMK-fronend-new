@@ -1,14 +1,14 @@
 <template >
     <header class="header">
         <div class="container">
-            <img :src="images.logo" alt="logo" class="header__logo">
+            <router-link to="/"><img :src="images.logo" alt="logo" class="header__logo"></router-link>
             <button class="header__menu-button" :class="{open: menuOpen}" @click="toggleButton">
                 <span></span>
             </button>
-            <div class="header__search-box">
+            <!-- <div class="header__search-box">
                 <icon-component class="header__search-image"/>
                 <input type="text" placeholder="Поиск" class="header__search">
-            </div>
+            </div> -->
             <div class="header__content">
                 <div class="header__icon-list"></div>
                 <a href="#" class="header__profile">

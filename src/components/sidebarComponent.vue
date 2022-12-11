@@ -13,14 +13,14 @@
                 <icon-component class="sidebar__icon" name="paper"/>
                 <span>Список заказов</span>
             </router-link>
-            <a href="#" class="sidebar__item">
+            <router-link to="/users" class="sidebar__item">
                 <icon-component class="sidebar__icon" name="users"/>
                 <span>Пользователи</span>
-            </a>
-            <a href="#" class="sidebar__item sidebar__item_mt">
+            </router-link>
+            <router-link to="/settings" class="sidebar__item sidebar__item_mt">
                 <icon-component class="sidebar__icon" name="settings"/>
                 <span>Настройки</span>
-            </a>
+            </router-link>
             <a href="#" class="sidebar__item">
                 <icon-component class="sidebar__icon" name="basket"/>
                 <span>Корзина</span>
