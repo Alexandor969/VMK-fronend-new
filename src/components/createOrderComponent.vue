@@ -2,33 +2,42 @@
     <div page-card>
         <h2 class="create-order__title">Наряд-заказ на благоустройство могилы</h2>
         <span class="create-order__required">* — поля, обязательные для заполнения</span>
-        <form action="" class="create-order__form">
+        <form action="" type="POST" class="create-order__form">
             <div class="create-order__item information" >
                 <h3 class="create-order__title_min">Контактная информация</h3>
                 <div class="information__list">
-                    <input-component  inputType="text" inputName="customer" inputContent="Иванов Иван Иванович" inputLabel="Ф.И.О. заказчика" :required=true />
-                    <input-component  inputType="tel" inputName="phone" inputContent="+7 (999) 999-99-99" inputLabel="Номер телефона" :required=true />
-                    <input-component  inputType="text" inputName="adress" inputContent="г. Великий Новгород, ул. Луговая, 7" inputLabel="Адрес" />
-                    <input-component  inputType="email" inputName="email" inputContent="email@mail.ru" inputLabel="Email"/>
-                    <input-component  inputType="text" inputName="deceased" inputContent="Петров Пётр Петрович" inputLabel="Ф.И.О. покойного" :required=true />
-                    <input-component  inputType="text" inputName="cemetery" inputContent="Ермолинское кладбище" inputLabel="Место установки" :selectList="cemetryList" :required=true />
+                    <input-component v-model:meaning="createOrder.customer.customerName" inputType="text" inputName="customer" inputContent="Иванов Иван Иванович" inputLabel="Ф.И.О. заказчика" :required=true />
+                    <input-component v-model:meaning="createOrder.customer.customerPhone" inputType="tel" inputName="phone" inputContent="+7 (999) 999-99-99" inputLabel="Номер телефона" :required=true />
+                    <input-component v-model:meaning="createOrder.customer.customerAddress" inputType="text" inputName="adress" inputContent="г. Великий Новгород, ул. Луговая, 7" inputLabel="Адрес" />
+                    <input-component v-model:meaning="createOrder.customer.customerEmail" inputType="email" inputName="email" inputContent="email@mail.ru" inputLabel="Email"/>
+                    <input-component v-model:meaning="createOrder.deceased.deceasedName" inputType="text" inputName="deceased" inputContent="Петров Пётр Петрович" inputLabel="Ф.И.О. покойного" :required=true />
+                    <VDropdown
+                    :distance="6"
+                    >
+                    <input-component v-model:meaning="createOrder.deceased.deceasedInstallationAddress" inputType="text" inputName="cemetery" inputContent="Ермолинское кладбище" inputLabel="Место установки" :required=true />
+                        <template #popper>
+                            <div class="information__select">
+                                <button class="information__select-item" v-for="item in cemetryList" :key="item" @click="addDecaced(item)">{{item}}</button>
+                            </div>
+                        </template>
+                    </VDropdown>
                     <div class="information__list_sub">
-                        <input-component  inputType="number" inputName="location" inputContent="№ участка" inputLabel="Участок" :required=true />
-                        <input-component  inputType="number" inputName="row" inputContent="№ ряда" inputLabel="Ряд" :required=true />
-                        <input-component  inputType="number" inputName="place" inputContent="№ места" inputLabel="Место" :required=true />
+                        <input-component v-model:meaning="createOrder.deceased.deceasedRegion" inputType="number" inputName="location" inputContent="№ участка" inputLabel="Участок" :required=true />
+                        <input-component v-model:meaning="createOrder.deceased.deceasedRow" inputType="number" inputName="row" inputContent="№ ряда" inputLabel="Ряд" :required=true />
+                        <input-component v-model:meaning="createOrder.deceased.deceasedPlace" inputType="number" inputName="place" inputContent="№ места" inputLabel="Место" :required=true />
                     </div>
                 </div>
             </div>
             <div class="create-order__item service">
                 <h3 class="create-order__title_min">Список оказываемых услуг</h3>
                 <div class="service__list">
-                    <service-component v-for="item in counter" :key="item" :index=item @remove="removeOrderService"/>
+                    <service-component :service=serviceList v-for="item in counter" :key="item" :index=item @remove="removeOrderService" @ready="ServiceGravelOrder => { createOrder.addedServiceGravelOrder.push(ServiceGravelOrder) }"/>
                 </div>
                 <button-component button-text="+ Добавить услугу" class="create-order__button" @click.prevent="addOrderService"/>
             </div>
             <div class="create-order__item additional-service">
                 <h3 class="create-order__title_min">Список оказываемых услуг</h3>
-                <textarea class="additional-service__field" placeholder="Описание дополнительных услуг"></textarea>
+                <textarea class="additional-service__field" v-model="createOrder.additionalServices" placeholder="Описание дополнительных услуг"></textarea>
             </div>
             <div class="create-order__item payment">
                 <div class="col">
@@ -38,7 +47,7 @@
                             <div class="col">
                                 <div class="payment__value-box">
                                     <span class="payment__label">Сумма заказа</span>
-                                    <div class="payment__value">64 000 руб.</div>
+                                    <div class="payment__value">{{createOrder.amount}}</div>
                                 </div>
                             </div>
                             <div class="col">
@@ -46,15 +55,15 @@
                                     <span class="payment__label">Тип оплаты</span>
                                     <div class="radio__list">
                                         <label class="radio__item">
-                                            <input type="radio">
+                                            <input type="radio" v-model="createOrder.paymentType" value="Prepayment">
                                             авансовый платёж
                                         </label>
                                         <label class="radio__item">
-                                            <input type="radio">
+                                            <input type="radio" v-model="createOrder.paymentType" value="payment">
                                             полный расчёт
                                         </label>
                                         <label class="radio__item">
-                                            <input type="radio">
+                                            <input type="radio" v-model="createOrder.paymentType" value="withoutPrepayment">
                                             без предоплаты
                                         </label>
                                     </div>
@@ -63,33 +72,33 @@
                         </div>
                     </div>
                     <div class="discount">
-                        <div class="col">
+                        <div class="col" v-if="discount">
                             <span class="payment__label">скидка</span>
                             <div class="payment__value-box payment__value_flex">
-                                <input-component  inputType="number" inputName="discount" inputContent="15" />
+                                <input-component  inputType="number" inputName="discount" inputContent="15" v-model:meaning=createOrder.discount />
                                 <div class="radio__list">
                                     <label class="radio__item">
-                                        <input type="radio">
+                                        <input type="radio" v-model="createOrder.discountType" value="percent">
                                         %
                                     </label>
                                     <label class="radio__item">
-                                        <input type="radio">
+                                        <input type="radio" v-model="createOrder.discountType" value="currency">
                                         руб
                                     </label>
                                 </div>
                             </div>
                         </div>
-                        <div class="col">
+                        <div class="col" v-if="prepayment">
                             <span class="payment__label">размер аванса</span>
                             <div class="payment__value-box payment__value_flex">
-                                <input-component  inputType="number" inputName="discount" inputContent="50" />
+                                <input-component  inputType="number" inputName="discount" inputContent="50" v-model:meaning=createOrder.prepayment />
                                 <div class="radio__list">
                                     <label class="radio__item">
-                                        <input type="radio">
+                                        <input type="radio" v-model="createOrder.prepaymentType" value="percent">
                                         %
                                     </label>
                                     <label class="radio__item">
-                                        <input type="radio">
+                                        <input type="radio" v-model="createOrder.prepaymentType" value="currency">
                                         руб
                                     </label>
                                 </div>
@@ -100,38 +109,39 @@
                         <div class="col">
                             <div class="payment__value-box">
                                 <span class="payment__label payment__label_big">К оплате</span>
-                                <div class="payment__value payment__value_gold">34 000 руб.</div>
+                                <div class="payment__value payment__value_gold">{{createOrder.finalCost}}</div>
                             </div>
                             <div class="payment__value-box payment__value_mt">
                                 <span class="payment__label">Способ оплаты</span>
                                 <div class="radio__list">
                                     <label class="radio__item">
-                                        <input type="radio">
+                                        <input type="radio" v-model="createOrder.paymentMethod" value="card">
                                         банковской картой
                                     </label>
                                     <label class="radio__item">
-                                        <input type="radio">
+                                        <input type="radio" v-model="createOrder.paymentMethod" value="cash">
                                         наличными
                                     </label>
                                 </div>
                             </div>
                         </div>
-                        <div class="col">
+                        <!-- <div class="col">
                             <div class="payment__value-box">
                                 <span class="payment__label">остаток</span>
                                 <div class="payment__value">~34 000 руб.</div>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
-                    <button-component class="create-order__submit" button-text="Подтвердить заказ"/>
-                    <button-component class="create-order__remove" button-text="Вернуться к редактированию заказа"/>
+                    <button-component class="create-order__submit" @click.prevent="openSigntaure = true" v-if="!image" button-text="Создать заказ"/>
+                    <button-component class="create-order__submit" @click.prevent="validate" v-if="image" button-text="Подтвердить заказ"/>
+                    <button-component class="create-order__remove" @click.prevent="image = ''" v-if="image" button-text="Вернуться к редактированию заказа"/>
                 </div>
                 <div class="col">
                     <h3 class="create-order__title_min">Сроки выполнения работ</h3>
                     <div class="create-order__date">
                         <div class="col">
                             <span class="payment__label">Начало работ</span>
-                            <Datepicker class="create-order__date-item" auto-apply  v-model="date.beginning" :enable-time-picker="false" locale="ru">
+                            <Datepicker class="create-order__date-item" auto-apply format="dd/MM/yyyy" v-model="createOrder.date.beginning" :enable-time-picker="false" locale="ru">
                                 <template #calendar-header="{ index, day }">
                                     <div class="date__day" :class="index === 5 || index === 6 ? 'gold-color' : ''">
                                       {{ day }}
@@ -141,7 +151,7 @@
                         </div>
                         <div class="col">
                             <span class="payment__label">Окончание работ</span>
-                            <Datepicker class="create-order__date-item" auto-apply v-model="date.end" :enable-time-picker="false" locale="ru">
+                            <Datepicker class="create-order__date-item" auto-apply format="dd/MM/yyyy" v-model="createOrder.date.end" :enable-time-picker="false" locale="ru">
                                 <template #calendar-header="{ index, day }">
                                     <div class="date__day" :class="index === 5 || index === 6 ? 'gold-color' : ''">
                                       {{ day }}
@@ -153,15 +163,30 @@
                     <div class="create-order__item create-order__comment">
                         <div class="create-order__item additional-service">
                             <h3 class="create-order__title_min">Комментарий к заказу</h3>
-                            <textarea class="additional-service__field" placeholder="Текст комментария"></textarea>
+                            <textarea class="additional-service__field" v-model="createOrder.orderComment" placeholder="Текст комментария"></textarea>
                         </div>
                         <!-- <input type="file" class="create-order__button"> -->
                     </div>
-                    <div class="create-order__item create-order__signature">
+                    <div class="create-order__item create-order__signature" v-if="image">
                         <h3 class="create-order__title_min">Подпись заказчика</h3>
+                        <img :src="image" alt="" width="280" height="300">
                     </div>
                 </div>
             </div>
+            <popup-component :is-open="openSigntaure" :mt="false" @close="(closeSignature)" >
+                <template #content>
+                    <div class="signature-box">
+                        <Vue3Signature ref="signature" :w="'280px'" :h="'300px'"></Vue3Signature>
+                        <button @click.stop.prevent="clearSignature" class="signature__undo-box">
+                            <icon-component width="24" height="24" name="undo" class="signature__undo"/>
+                        </button>
+                    </div>
+                    <div class="signature__button-box">
+                        <button-component @click.prevent="createSignature" class="signature__button" button-text="ок"/>
+                        <button-component @click.prevent="closeSignature" class="signature__button signature__button_gray" button-text="отмена"/>
+                    </div>
+                </template>
+            </popup-component>
         </form>
     </div>
 </template>
@@ -169,23 +194,102 @@
 import inputComponent from '../ui/inputComponent.vue';
 import serviceComponent from '../ui/serviceComponent.vue';
 import buttonComponent from '../ui/buttonComponent.vue';
-import { useToast } from "vue-toastification";
+import popupComponent from '../ui/popupComponent.vue';
+import Vue3Signature from 'vue3-signature';
+import iconComponent from '../ui/iconComponent.vue';
+
+import serviceList from '../json/serviceList.json'
+import { POSITION, useToast } from "vue-toastification";
+import axios from '../api'
+import {createOrderShema} from '../shemas/createOrderShema';
 
 export default {
     components: {
-        inputComponent,
-        serviceComponent,
-        buttonComponent
-    },
+    inputComponent,
+    serviceComponent,
+    buttonComponent,
+    popupComponent,
+    Vue3Signature,
+    iconComponent
+},
     data() {
         return {
             cemetryList: ["Ермолинское кладбище", "Западное кладбище", "Рождественское кладбище", "Петровское кладбище"],
             counter: 1,
-            date: {
-                beginning: new Date(),
-                end: new Date(),
+            createOrder: {
+                customer: {
+                    customerName: "",
+                    customerPhone: "",
+                    customerAddress: "",
+                    customerEmail: "",
+                },
+                deceased: {
+                    deceasedName: "",
+                    deceasedInstallationAddress: "",
+                    deceasedRegion: "",
+                    deceasedRow: "",
+                    deceasedPlace: "",
+                },
+                addedServiceGravelOrder: [] as {
+                    name: string
+                    gravelServiceListId: number,
+                    measurement: string | undefined,
+                    priceMeasurement: string,
+                    price: string,
+                    quantity: string,
+                    description: string,
+                }[],
+                //Дополнительные услуги
+                additionalServices: '',
+                //Цена и вариант оплаты
+                amount: 0,
+                paymentType: '',
+                //Скидка и вариант скидки
+                discount: 0,
+                discountType: '',
+                //Аванс и вариант аванса
+                prepayment: 0,
+                prepaymentType: '',
+                //Дедлайн
+                date: {
+                    beginning: "",
+                    end: "",
+                },
+                //Комментарий заказа
+                orderComment: '',
+                //Загруженное изображение
+                uploadImage: '',
+                //Финальная стоимость заказа "К ОПЛАТЕ"
+                finalCost: 0,
+                //Способ оплаты
+                paymentMethod: '',
+                //Подтверждение заказа
+                orderСonfirmation: false,
+                //Подпись заказчика
+                signatureImgUrl: '',
+            },
+            errors: {
+                customercustomerName: "",
+                customercustomerPhone: "",
+                deceaseddeceasedName: "",
+                deceaseddeceasedInstallationAddress: "",
+                deceaseddeceasedRegion: "",
+                deceaseddeceasedRow: "",
+                deceaseddeceasedPlace: "",
+                paymentType: "",
+                datebeginning: "",
+                dateend: "",
+                paymentMethod: "",
             },
             toast: useToast(),
+            addServiceList: [] as string[],
+            serviceList: serviceList,
+            discount: false,
+            prepayment: false,
+            discountPrice: 0,
+            prepay: 0,
+            openSigntaure: false,
+            image: ""
         }
     },
     methods: {
@@ -195,8 +299,7 @@ export default {
         removeOrderService() {
             if (this.counter == 1) {
                 this.toast.error("Невоможно удалить единственную услугу", {
-                    // @ts-ignore
-                    position: "bottom-right",
+                    position: POSITION.BOTTOM_RIGHT,
                     timeout: 2000,
                     closeOnClick: true,
                     pauseOnFocusLoss: true,
@@ -204,9 +307,154 @@ export default {
               })
             } else {
                 this.counter -=1
+                this.createOrder.addedServiceGravelOrder.pop()
             }
-        }
+        },
+        addDecaced(item: string) {
+            this.createOrder.deceased.deceasedInstallationAddress = item
+        },
+        createSignature() {
+            //@ts-ignore
+            if(this.$refs.signature.isEmpty()) {
+                //@ts-ignore
+                this.$refs.signature.clear()
+                this.image = ""
+            } else {
+                 //@ts-ignore\
+                this.image = this.$refs.signature.save('image/png')
+                //@ts-ignore
+                this.$refs.signature.clear()
+                this.openSigntaure = false
+            }
+        },
+        clearSignature() {
+            //@ts-ignore
+            this.$refs.signature.clear()
+            this.image = ""
+        },
+        closeSignature() {
+            //@ts-ignore
+            this.$refs.signature.clear()
+            this.openSigntaure = false
+        },
+        validate() {
+        createOrderShema
+        .validate(this.createOrder, { abortEarly: false })
+          .then(() => {
+            this.errors = {
+                customercustomerName: "",
+                customercustomerPhone: "",
+                deceaseddeceasedName: "",
+                deceaseddeceasedInstallationAddress: "",
+                deceaseddeceasedRegion: "",
+                deceaseddeceasedRow: "",
+                deceaseddeceasedPlace: "",
+                paymentType: "",
+                datebeginning: "",
+                dateend: "",
+                paymentMethod: "",
+            }
+            axios.order.createOrderGraveImprovement(this.createOrder)
+            .then((res: any) => {
+                this.toast.success('Пользователь создан', {
+                position: POSITION.BOTTOM_RIGHT,
+                timeout: 2000,
+                closeOnClick: true,
+                pauseOnFocusLoss: true,
+                pauseOnHover: true,
+              })
+            }
+            )
+            .catch( (res: any) => {
+              this.toast.error(`${res.response.data.message}`, {
+                position: POSITION.BOTTOM_RIGHT,
+                timeout: 2000,
+                closeOnClick: true,
+                pauseOnFocusLoss: true,
+                pauseOnHover: true,
+              })
+            }
+            )
+          })
+          .catch((err: any) => {
+            // @ts-ignore
+            err.inner.forEach((error) => {
+              // @ts-ignore
+              this.errors[error.path.replace( /\./g, '' )] = error.message;
+              console.log(this.errors)
+            });
+          })
+      }
     },
+    computed: {
+    },
+    watch: {
+        ['createOrder.addedServiceGravelOrder']: {
+            handler(newVal:typeof this.createOrder.addedServiceGravelOrder) {
+                this.createOrder.amount = newVal.reduce<number>((old, curr) => {
+                    return old +  +curr.price
+                }, 0);
+                let arr = [...this.createOrder.addedServiceGravelOrder].map(({name, ...obj}) => {
+                return name
+                })
+                this.addServiceList = arr
+                this.serviceList = serviceList.filter(item => !this.addServiceList.includes(item.name))
+            },
+            deep: true
+        },
+        'createOrder.paymentType'() {
+            switch(this.createOrder.paymentType) {
+                case "Prepayment":
+                    this.discount = true,
+                    this.prepayment = true
+                    this.createOrder.discountType = "currency"
+                    this.createOrder.prepaymentType = "currency"
+                    break;
+                case "payment":
+                    this.discount = true,
+                    this.prepayment = false
+                    this.createOrder.discountType = "currency"
+                    this.discountPrice = this.createOrder.amount
+                    break;
+                default:
+                    this.discount = false,
+                    this.prepayment = false
+            }
+        },
+        'createOrder.prepayment'() {
+            if (this.createOrder.prepaymentType == "percent") {
+                if(this.discount == true) {
+                    this.prepay = +(this.discountPrice * this.createOrder.prepayment / 100).toFixed(2)
+                } else {
+                    this.prepay = +(this.createOrder.amount * this.createOrder.prepayment / 100).toFixed(2)
+                }
+            } else {
+                this.prepay = this.createOrder.prepayment
+            }
+        },
+        createOrder: {
+            handler(newValue, oldValue) {
+                if(this.prepayment == true) {
+                this.createOrder.finalCost = this.prepay
+                console.log(this.discountPrice)
+                } else if(this.discount == true) {
+                    if (this.createOrder.discountType == "percent") {
+                        let disc = +(this.createOrder.amount * this.createOrder.discount / 100).toFixed(2)
+                        console.log(disc)
+                        this.discountPrice = +(this.createOrder.amount - disc).toFixed(2)
+                    } else if (this.createOrder.discountType == "currency") {
+                        this.discountPrice = this.createOrder.amount - this.createOrder.discount
+                    } else {
+                        this.discountPrice = this.createOrder.amount
+                    }
+                    this.createOrder.finalCost = this.discountPrice
+                } else {
+                    this.createOrder.finalCost = 0
+                }
+            },
+            deep: true
+        }
+    }
 }
 </script>
 <style lang="sass">
@@ -273,6 +521,19 @@ export default {
                 display: grid
                 grid-template-columns: repeat(3, 120px)
                 gap: 13px
+        &__select
+            max-width: 360px
+            width: 100%
+            padding: 20px
+            &-item
+                display: block
+                background: none
+                width: 100%
+                border: none
+                color: var(--brown)
+                font-size: 18px
+                &:not(:first-child)
+                    margin-top: 20px
     .service
         &__list
             margin-top: 30px
@@ -359,4 +620,35 @@ export default {
         display: grid
         grid-template-columns: repeat(2, 200px)
         gap: 30px
+    .v-popper__arrow-container
+        display: none
+    .signature
+        &-box
+            border: 1px solid var(--gray)
+            border-radius: 5px
+            overflow: hidden
+            position: relative
+        &__undo
+            height: 20px
+            &-box
+                position: absolute
+                top: 5px
+                right:5px
+                z-index: 2
+                border: none
+                background: none
+        &__button
+            text-transform: uppercase
+            color: var(--white)
+            background: var(--gold)
+            width: 100%
+            padding: 13px 10px
+            &_gray
+                background: none
+                color: var(--gray)
+                border: 1px solid var(--gray)
+                margin-top: 20px
+            &-box
+                width: 100%
+                margin-top: 20px
 </style>

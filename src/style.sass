@@ -1,6 +1,7 @@
 @import "vue-toastification/dist/index.css"
-@import '@vuepic/vue-datepicker/dist/main.css'
-@import 'vue-select/dist/vue-select.css'
+@import "@vuepic/vue-datepicker/dist/main.css"
+@import "vue-select/dist/vue-select.css"
+@import "floating-vue/dist/style.css"
 
 *
     box-sizing: border-box
@@ -107,7 +108,7 @@ body
     min-height: 100vh
     -webkit-font-smoothing: antialiased
     -moz-osx-font-smoothing: grayscale
-    color: #000
+    color: var(--brown)
     background: #fff
     position: relative
     will-change: scroll-position
@@ -208,6 +209,10 @@ input[type='number']
     background-color: var(--white)
     color: var(--gold)
     border-color: var(--gold)
+.Vue-Toastification__toast--success
+    background-color: var(--white)
+    color: var(--green)
+    border-color: var(--green)
 .Vue-Toastification__toast-body
     color: var(--brown)
 .Vue-Toastification__close-button

@@ -22,7 +22,7 @@ import logo from "../assets/img/svg/logo.svg"
 import inputComponent from '../ui/inputComponent.vue';
 import buttonComponent from '../ui/buttonComponent.vue';
 import * as yup from "yup"
-import { useToast } from "vue-toastification";
+import { POSITION, useToast } from "vue-toastification";
 import axios from '../api'
 export default {
     components: {
@@ -62,9 +62,9 @@ export default {
             axios.auth.login(this.values)
             .then((res: any) => {
               if(this.cheked == true) {
-                document.cookie = `"access_token" = ${res.data.accessToken}; samesite=strict; secure=true; max-age=3600`
+                document.cookie = `access_token=${res.data.accessToken}; samesite=strict; secure=true; max-age=3600`
               } else {
-                document.cookie = `"access_token" = ${res.data.accessToken}; samesite=strict; secure=true; max-age=3600`
+                document.cookie = `access_token=${res.data.accessToken}; samesite=strict; secure=true; max-age=3600`
               }
               localStorage.setItem("roles", res.data.user.roles)
 
@@ -72,8 +72,7 @@ export default {
             )
             .catch( (res: any) => {
               this.toast.error(`${res.response.data.message}`, {
-                // @ts-ignore
-                position: "bottom-center",
+                position: POSITION.BOTTOM_CENTER,
                 timeout: 2000,
                 closeOnClick: true,
                 pauseOnFocusLoss: true,

@@ -1,14 +1,14 @@
 <template>
     <div @click="close" class="popup__backdrop" :class="{open: isOpen}">
         <div class="popup" @click.stop>
-            <button @click="close" class="popup__close">
+            <button @click.stop.prevent="close" class="popup__close">
                 <icon-component name="close" width="32" height="32" class="popup__close-icon"/>
             </button>
             <h3 class="popup__title">
                 <slot name="title" >
                 </slot>
             </h3>
-            <div class="popup__content">
+            <div :class="{popup__content: mt}">
                 <slot name="content" :close="close" :confirm="confirm">
                 </slot>
             </div>
@@ -22,6 +22,10 @@ export default {
         isOpen: {
             type: Boolean,
             required: true
+        },
+        mt: {
+            type: Boolean,
+            default: true
         }
     },
     emits: {

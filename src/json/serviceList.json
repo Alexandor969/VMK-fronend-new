@@ -1,0 +1,102 @@
+ [
+  {
+    "name": "Ж/б поребрик",
+    "measurement": "п/м",
+    "selected": false
+  },
+  {
+    "name": "Подсыпка песка",
+    "measurement": "усл.",
+    "selected": false
+  },
+  {
+    "name": "Ограда",
+    "measurement": "п/м",
+    "selected": false
+  },
+  {
+    "name": "Установка ограды",
+    "measurement": "усл.",
+    "selected": false
+  },
+  {
+    "name": "Установка памятника",
+    "measurement": "усл.",
+    "selected": false
+  },
+  {
+    "name": "Установка стола",
+    "measurement": "усл.",
+    "selected": false
+  },
+  {
+    "name": "Установка скамьи",
+    "measurement": "усл.",
+    "selected": false
+  },
+  {
+    "name": "Мраморная крошка на стяжке",
+    "measurement": "кв/м",
+    "selected": false
+  },
+  {
+    "name": "Укладка плитки тротуарной",
+    "measurement": "кв/м",
+    "selected": false
+  },
+  {
+    "name": "Демонтаж бетонного поребрика",
+    "measurement": "п/м",
+    "selected": false
+  },
+  {
+    "name": "Демонтаж памятника",
+    "measurement": "усл.",
+    "selected": false
+  },
+  {
+    "name": "Демонтаж ограды",
+    "measurement": "усл.",
+    "selected": false
+  },
+  {
+    "name": "Спил дерева",
+    "measurement": "усл.",
+    "selected": false
+  },
+  {
+    "name": "Покраска ограды",
+    "measurement": "усл.",
+    "selected": false
+  },
+  {
+    "name": "Реставрация надписей, портрета",
+    "measurement": "усл.",
+    "selected": false
+  },
+  {
+    "name": "Отмостка, опорная стена",
+    "measurement": "п/м",
+    "selected": false
+  },
+  {
+    "name": "Бетонный цветник",
+    "measurement": "усл.",
+    "selected": false
+  },
+  {
+    "name": "Укладка гранитного комплекса",
+    "measurement": "усл.",
+    "selected": false
+  },
+  {
+    "name": "Утилизация",
+    "measurement": "усл.",
+    "selected": false
+  },
+  {
+    "name": "Вывоз памятника на хранение",
+    "measurement": "усл.",
+    "selected": false
+  }
+]

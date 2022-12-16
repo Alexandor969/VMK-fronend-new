@@ -1,15 +1,15 @@
 <template>
-    <div users>
-        <form method="post" class="create-user">
+    <div class="users">
+        <form method="post" @submit.prevent="validate" class="create-user">
             <h3 class="create-user__title">Создание нового пользователя</h3>
             <ul class="create-user__list">
                 <li class="create-user__item">
                     <span class="create-user__text">Email</span>
-                    <input class="create-user__field" type="email" placeholder="testmail@mail.ru">
+                    <input class="create-user__field" :class="{error: errors.email}" v-model="createUser.email" type="email" placeholder="testmail@mail.ru">
                 </li>
                 <li class="create-user__item">
                     <span class="create-user__text">Логин</span>
-                    <input class="create-user__field" type="text" placeholder="nickname">
+                    <input class="create-user__field" :class="{error: errors.login}" v-model="createUser.login" type="text" placeholder="nickname">
                 </li>
                 <li class="create-user__item">
                     <span class="create-user__text">Пароль</span>
@@ -18,9 +18,25 @@
                 <li class="create-user__item">
                     <span class="create-user__text">Роль</span>
                     <div class="create-user__role">
-                        <checkbox-component checkText="Пользователь"/>
-                        <checkbox-component checkText="Менеджер"/>
-                        <checkbox-component checkText="Администратор"/>
+                        <checkbox-component value="USER" v-model="user" checkText="пользователь" />
+                        <checkbox-component v-for="item in roles"  :value="item.value" v-model="role" :checkText="item.label" />
+                    </div>
+                </li>
+                <li class="create-user__item">
+                    <span class="create-user__text">ФИО</span>
+                    <input class="create-user__field" :class="{error: errors.fullName}" v-model="createUser.fullName" type="text" placeholder="Иванов Иван Иванович">
+                </li>
+                <li class="create-user__item">
+                    <span class="create-user__text">Номер телефона</span>
+                    <input class="create-user__field" :class="{error: errors.phone}" v-model="createUser.phone" type="tel" placeholder="+7 (999) 999-99-99">
+                </li>
+                <li class="create-user__item">
+                    <span class="create-user__text">Роль</span>
+                    <div class="create-user__role create-user__role_reg">
+                        <label v-for="item in region">
+                            <input type="radio" v-model="createUser.region" :value="item.value" >
+                            {{item.label}}
+                        </label>
                     </div>
                 </li>
             </ul>
@@ -33,11 +49,125 @@
 import buttonComponent from '../ui/buttonComponent.vue';
 import checkboxComponent from '../ui/checkboxComponent.vue';
 import usersListComponent from '../ui/usersListComponent.vue';
+import { POSITION, useToast } from "vue-toastification";
+import axios from '../api'
+import {createUserShema} from '../shemas/userShema';
 export default {
     components: {
-        buttonComponent,
-        checkboxComponent,
-        usersListComponent
+    buttonComponent,
+    checkboxComponent,
+    usersListComponent,
+},
+    data() {
+        return {
+            createUser: {
+                email: '',
+                login: '',
+                fullName: '',
+                phone: '',
+                region: '',
+            },
+            errors: {
+                email: '',
+                login: '',
+                fullName: '',
+                phone: '',
+                region: '',
+            },
+            roles: [
+                {
+                    value: "MANAGER",
+                    label: "Менеджер"
+                },
+                {
+                    value: "ADMIN",
+                    label: "Администратор"
+                },
+            ],
+            role: [] as string[],
+            region: [
+                {
+                    value: "VN",
+                    label: "В. Новгород"
+                },
+                {
+                    value: "PS",
+                    label: "Псков"
+                },
+                {
+                    value: "TV",
+                    label: "Тверь"
+                },
+                {
+                    value: "VG",
+                    label: "Вологда"
+                },
+                {
+                    value: "HP",
+                    label: "Череповец"
+                },
+                {
+                    value: "SPB",
+                    label: "СПб"
+                },
+            ],
+            user: true,
+            toast: useToast(),
+
+        }
+    },
+    methods: {
+      validate() {
+        createUserShema
+        .validate(this.createUser, { abortEarly: false })
+          .then(() => {
+            this.errors = {
+                email: '',
+                login: '',
+                fullName: '',
+                phone: '',
+                region: '',
+            }
+            // this.createUser.roles = this.role.join(' ')
+            axios.users.createNewUser({...this.createUser, roles: this.role.join(' ')})
+            .then((res: any) => {
+                this.toast.success('Пользователь создан', {
+                position: POSITION.BOTTOM_RIGHT,
+                timeout: 2000,
+                closeOnClick: true,
+                pauseOnFocusLoss: true,
+                pauseOnHover: true,
+              })
+            }
+            )
+            .catch( (res: any) => {
+              this.toast.error(`${res.response.data.message}`, {
+                position: POSITION.BOTTOM_RIGHT,
+                timeout: 2000,
+                closeOnClick: true,
+                pauseOnFocusLoss: true,
+                pauseOnHover: true,
+              })
+            }
+            )
+          })
+          .catch((err: any) => {
+            // @ts-ignore
+            err.inner.forEach((error) => {
+              // @ts-ignore
+              this.errors[error.path] = error.message;
+            });
+            if (this.errors.region != "") {
+                this.toast.error(this.errors.region, {
+                    position: POSITION.BOTTOM_RIGHT,
+                    timeout: 2000,
+                    closeOnClick: true,
+                    pauseOnFocusLoss: true,
+                    pauseOnHover: true,
+                })
+            }
+          })
+      }
     }
 }
 </script>
@@ -94,10 +224,18 @@ export default {
                 color: var(--gray)
             &:focus
                 border-color: var(--gold)
+            &.error
+                border: 1px solid var(--red)
         &__role
             display: flex
             align-items: center
+            flex-wrap: wrap
             gap: 30px
+            &_reg
+                max-width: 300px
+                width: 100%
+                padding: 20px 0
+                gap: 15px 30px
         &__button
             margin: 0 auto
             margin-top: 20px
