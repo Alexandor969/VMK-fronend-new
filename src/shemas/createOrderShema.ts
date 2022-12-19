@@ -35,10 +35,8 @@ export const createOrderShema = object({
     prepayment: number(),
     prepaymentType: string(),
     //Дедлайн
-    date: object({
-        beginning:string().required('Укажите дату начала работ'),
-        end: string().required('Укажите дату конца работ'),
-    }),
+    startDate:string().required('Укажите дату начала работ'),
+    endedDate: string().required('Укажите дату конца работ'),
     //Комментарий заказа
     orderComment: string(),
     //Загруженное изображение

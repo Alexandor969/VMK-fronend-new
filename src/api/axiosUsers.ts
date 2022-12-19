@@ -1,9 +1,4 @@
 import {createUserType} from './../shemas/userShema';
-function getCookie(name: any) {
-	let matches = document.cookie.match(new RegExp("(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"));
-	return matches ? decodeURIComponent(matches[1]) : undefined;
-}
-
 
 export default function(instance: any) {
     return {
@@ -15,11 +10,7 @@ export default function(instance: any) {
         //     return instance.post('updateUserInfo', payload);
         // },
         createNewUser(payload: createUserType) {
-            return instance.post('createUser', payload, {
-                headers: {
-                    'authorization': `Bearer ${getCookie('access_token')}`
-                }
-            });
+            return instance.post('createUser', payload);
         },
         // getUsersList(payload) {
         //     return instance.get('users', payload);

@@ -10,6 +10,7 @@
       :name="inputName"
       :placeholder="inputContent"
       :autocomplete="inputAutocomplete"
+      :disabled="disabled"
     />
     <span class="input__error-text" v-if="inputError">{{ inputError }}</span>
   </div>
@@ -52,6 +53,9 @@ export default {
     required: {
       type: Boolean
     },
+    disabled: {
+      type: Boolean
+    }
   },
   data() {
     return {

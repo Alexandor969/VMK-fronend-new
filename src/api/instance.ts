@@ -1,4 +1,10 @@
 import axios from "axios";
+import router from "../router/router";
+function getCookie(name: any) {
+	let matches = document.cookie.match(new RegExp("(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"));
+	return matches ? decodeURIComponent(matches[1]) : undefined;
+}
+
 // import store from '@/store';
 
 const instance: any = axios.create({
@@ -11,6 +17,30 @@ const instance: any = axios.create({
         accept: 'aplication/json',
     }
 });
+
+instance.interceptors.request.use( (config) => {
+    if(getCookie('access_token')) {
+        config.headers = {
+            'authorization': `Bearer ${getCookie('access_token')}`
+        }
+    }
+    return config
+}, (error) => {})
+
+instance.interceptors.response.use( (config) => {
+    if(getCookie('access_token')) {
+        config.headers = {
+            'authorization': `Bearer ${getCookie('access_token')}`
+        }
+    }
+    return config
+}, (error) => {
+    if(error.response.status === 401) {
+        console.log(11111)
+        router.push('auth')
+    }
+    throw error
+})
 
 // instance.interceptors.response.use((response: any) => {
 //     return response;

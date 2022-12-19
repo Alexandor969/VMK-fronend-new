@@ -3,12 +3,12 @@
         <buttonComponent class="service__delete" buttonText="Удалить услугу" :order=true size="20" name="delete" @click.prevent="remove" />
         <span class="service__index">{{index}}</span>
         <span class="service__title">Наименование услуги</span>
-        <v-select v-model="ServiceGravelOrder.name" placeholder="Ограда" :options="serviceNameList" @option:selected="select" />
+        <v-select :disabled="disabled" v-model="ServiceGravelOrder.name" placeholder="Ограда" :options="serviceNameList" @option:selected="select" />
         <div class="service__parametrs">
-            <input-component v-model:meaning="ServiceGravelOrder.quantity" inputType="number" inputName="size" inputContent="100" inputLabel="Размер"/>
-            <input-component v-model:meaning="ServiceGravelOrder.measurement" inputType="text" inputName="units" inputContent="п/м" inputLabel="Ед. изм."/>
-            <input-component v-model:meaning="ServiceGravelOrder.priceMeasurement" inputType="number" inputName="price" inputContent="1600" inputLabel="Цена за ед., руб."/>
-            <input-component v-model:meaning="ServiceGravelOrder.price" inputType="number" inputName="amount" inputContent="1600" inputLabel="Сумма, руб."/>
+            <input-component :disabled="disabled" v-model:meaning="ServiceGravelOrder.quantity" inputType="number" inputName="size" inputContent="100" inputLabel="Размер"/>
+            <input-component :disabled="disabled" v-model:meaning="ServiceGravelOrder.measurement" inputType="text" inputName="units" inputContent="п/м" inputLabel="Ед. изм."/>
+            <input-component :disabled="disabled" v-model:meaning="ServiceGravelOrder.priceMeasurement" inputType="number" inputName="price" inputContent="1600" inputLabel="Цена за ед., руб."/>
+            <input-component :disabled="disabled" v-model:meaning="ServiceGravelOrder.price" inputType="number" inputName="amount" inputContent="1600" inputLabel="Сумма, руб."/>
         </div>
     </div>
 </template>
@@ -33,6 +33,9 @@ export default {
     },
     serviceName: {
         type: Array<String>
+    },
+    disabled: {
+        type: Boolean
     }
  },
  emits: {

@@ -5,11 +5,11 @@
             <ul class="create-user__list">
                 <li class="create-user__item">
                     <span class="create-user__text">Email</span>
-                    <input class="create-user__field" :class="{error: errors.email}" v-model="createUser.email" type="email" placeholder="testmail@mail.ru">
+                    <input class="create-user__field" :class="{error: errors.email}" @input="errors.email =''" v-model="createUser.email" type="email" placeholder="testmail@mail.ru">
                 </li>
                 <li class="create-user__item">
                     <span class="create-user__text">Логин</span>
-                    <input class="create-user__field" :class="{error: errors.login}" v-model="createUser.login" type="text" placeholder="nickname">
+                    <input class="create-user__field" :class="{error: errors.login}" @input="errors.login =''" v-model="createUser.login" type="text" placeholder="nickname">
                 </li>
                 <li class="create-user__item">
                     <span class="create-user__text">Пароль</span>
@@ -24,14 +24,14 @@
                 </li>
                 <li class="create-user__item">
                     <span class="create-user__text">ФИО</span>
-                    <input class="create-user__field" :class="{error: errors.fullName}" v-model="createUser.fullName" type="text" placeholder="Иванов Иван Иванович">
+                    <input class="create-user__field" :class="{error: errors.fullName}" @input="errors.fullName =''" v-model="createUser.fullName" type="text" placeholder="Иванов Иван Иванович">
                 </li>
                 <li class="create-user__item">
                     <span class="create-user__text">Номер телефона</span>
-                    <input class="create-user__field" :class="{error: errors.phone}" v-model="createUser.phone" type="tel" placeholder="+7 (999) 999-99-99">
+                    <input class="create-user__field" :class="{error: errors.phone}" @input="errors.phone =''" v-model="createUser.phone" type="tel" placeholder="+7 (999) 999-99-99">
                 </li>
                 <li class="create-user__item">
-                    <span class="create-user__text">Роль</span>
+                    <span class="create-user__text">Регион</span>
                     <div class="create-user__role create-user__role_reg">
                         <label v-for="item in region">
                             <input type="radio" v-model="createUser.region" :value="item.value" >
@@ -131,6 +131,7 @@ export default {
             // this.createUser.roles = this.role.join(' ')
             axios.users.createNewUser({...this.createUser, roles: this.role.join(' ')})
             .then((res: any) => {
+                console.log(2123)
                 this.toast.success('Пользователь создан', {
                 position: POSITION.BOTTOM_RIGHT,
                 timeout: 2000,
@@ -141,6 +142,7 @@ export default {
             }
             )
             .catch( (res: any) => {
+                console.log('это catch')
               this.toast.error(`${res.response.data.message}`, {
                 position: POSITION.BOTTOM_RIGHT,
                 timeout: 2000,
@@ -168,6 +170,13 @@ export default {
             }
           })
       }
+    },
+    watch: {
+        'createUser.region'() {
+            if(this.createUser.region != "") {
+                this.errors.region = ''
+            }
+        }
     }
 }
 </script>

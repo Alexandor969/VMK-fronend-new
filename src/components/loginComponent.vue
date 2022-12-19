@@ -67,6 +67,7 @@ export default {
                 document.cookie = `access_token=${res.data.accessToken}; samesite=strict; secure=true; max-age=3600`
               }
               localStorage.setItem("roles", res.data.user.roles)
+              this.$router.push('/main')
 
             }
             )
