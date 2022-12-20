@@ -7,6 +7,10 @@ import main from "../components/mainComponent.vue"
 import orders from "../components/ordersComponent.vue"
 import users from "../components/usersComponent.vue"
 import settings from "../components/settingsComponent.vue"
+function getCookie(name: any) {
+	let matches = document.cookie.match(new RegExp("(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"));
+	return matches ? decodeURIComponent(matches[1]) : undefined;
+}
 
 
 
@@ -17,25 +21,30 @@ const routes: Array<RouteRecordRaw> = [
         component: page,
         children: [
             {
-              path: '/',
-              alias: '/main',
-              component: main
+                path: '/',
+                alias: '/main',
+                name: 'main',
+                component: main,
             },
             {
-              path: '/createOrder',
-              component: createOrder
+                path: '/createOrder',
+                name: 'createOrder',
+                component: createOrder,
             },
             {
-              path: '/orders',
-              component: orders
+                path: '/orders',
+                name: 'orders',
+                component: orders,
             },
             {
-              path: '/users',
-              component: users
+                path: '/users',
+                name: 'users',
+                component: users,
             },
             {
-              path: '/settings',
-              component: settings
+                path: '/settings',
+                name: 'settings',
+                component: settings,
             },
         ]
     },
@@ -44,8 +53,9 @@ const routes: Array<RouteRecordRaw> = [
         component: Authorization,
         children: [
             {
-              path: '/auth',
-              component: login
+                path: '/auth',
+                name: 'login',
+                component: login,
             },
         ]
     },
@@ -56,5 +66,23 @@ const router = createRouter({
     history: createWebHistory(),
 })
 
+router.beforeEach((to, from, next) => {
+    const accessToken = getCookie('access_token')
+
+    if(to.name !== 'login') {
+        if(!accessToken) {
+            return next({
+                name: 'login'
+            })
+        }
+    }
+    if(to.name === 'login' && accessToken) {
+        return next({
+            name: 'main'
+        })
+    }
+
+    next();
+})
 
 export default router

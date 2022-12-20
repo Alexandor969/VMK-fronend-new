@@ -18,26 +18,21 @@ const instance: any = axios.create({
     }
 });
 
-instance.interceptors.request.use( (config) => {
+instance.interceptors.request.use( (config: any) => {
     if(getCookie('access_token')) {
-        config.headers = {
-            'authorization': `Bearer ${getCookie('access_token')}`
-        }
+        config.headers.authorization = `Bearer ${getCookie('access_token')}`
     }
     return config
-}, (error) => {})
+}, (error: any) => {})
 
-instance.interceptors.response.use( (config) => {
+instance.interceptors.response.use( (config: any) => {
     if(getCookie('access_token')) {
-        config.headers = {
-            'authorization': `Bearer ${getCookie('access_token')}`
-        }
+        config.headers.authorization = `Bearer ${getCookie('access_token')}`
     }
     return config
-}, (error) => {
+}, (error: any) => {
     if(error.response.status === 401) {
-        console.log(11111)
-        router.push('auth')
+        router.push({name: 'login'})
     }
     throw error
 })

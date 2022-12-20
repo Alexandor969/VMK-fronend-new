@@ -67,7 +67,7 @@ export default {
         border-radius: 5px
         padding-bottom: 20px
         height: fit-content
-        flex: 1
+        flex: none
         &__title
             display: flex
             align-items: center
