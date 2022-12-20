@@ -14,13 +14,13 @@
             </div>
         </div>
         <ul class="users-list__list">
-            <li class="users-list__item">
+            <li class="users-list__item" v-for="(item, index) in users" :key="index">
                 <div class="users-list__content">
-                    <span class="users-list__text">№1</span>
-                    <span class="users-list__text">Иванов Иван Иванович</span>
-                    <span class="users-list__text users-list__text_gold">nickname</span>
-                    <span class="users-list__text">testmail@mail.ru</span>
-                    <span class="users-list__text">Менеджер</span>
+                    <span class="users-list__text users-list__index">№{{ index + 1 }}</span>
+                    <span class="users-list__text users-list__name" v-if="item.user_info">{{item.user_info.fullName}}</span>
+                    <span class="users-list__text users-list__text_gold users-list__text_min">{{item.username}}</span>
+                    <span class="users-list__text users-list__email">{{ item.email }}</span>
+                    <span class="users-list__text users-list__text_min">Менеджер</span>
                 </div>
                 <div class="users-list__action-box">
                     <button class="users-list__action">
@@ -33,6 +33,9 @@
 </template>
 <script lang="ts">
 import iconComponent from './iconComponent.vue';
+import { POSITION, useToast } from "vue-toastification";
+import axios from '../api'
+import { users } from '../types/types';
 export default {
     components: {
         iconComponent
@@ -45,8 +48,19 @@ export default {
                 {title: "по Email"},
                 {title: "по дате создания"},
             ],
-            selected: "Сортировка"
+            selected: "Сортировка",
+            users: [{}] as users
         }
+    },
+    mounted() {
+        axios.users.getUsersList([{}] as users)
+        .then((res: any) => {
+            this.users = res.data.users
+            console.log(this.users.map(item => item.user_info.fullName))
+        })
+        .catch((err: any) => {
+
+        })
     }
 }
 </script>
@@ -124,17 +138,31 @@ export default {
         &__content
             display: flex
             align-items: center
-            gap: 40px
+            flex-wrap: wrap
+            gap: 20px
         &__text
             font-family: 'Roboto'
             font-weight: 400
             font-size: 18px
             color: var(--brown)
+            white-space: nowrap
+            overflow: hidden
+            text-overflow: ellipsis
             &_gold
                 color: var(--gold)
+            &_min
+                width: 121px
         &__action
             border: none
             background: none
             &-box
                 margin-left: auto
+                flex: none
+        &__name
+            width: 280px
+        &__email
+            width: 220px
+        &__index
+            width: 40px
+
 </style>

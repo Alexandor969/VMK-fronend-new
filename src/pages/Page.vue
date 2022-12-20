@@ -14,6 +14,7 @@
 
 import sidebarComponent from "../components/sidebarComponent.vue"
 import headerComponent from "../components/headerComponent.vue";
+import store from '../store';
 export default {
     components: {
         sidebarComponent,
@@ -28,6 +29,9 @@ export default {
         openMenu() {
             this.menu = !this.menu
         }
+    },
+    mounted() {
+        store.commit('getUser')
     }
 }
 </script>

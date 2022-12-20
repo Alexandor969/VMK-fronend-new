@@ -66,6 +66,8 @@ export default {
         background-color: var(--gray-light)
         border-radius: 5px
         padding-bottom: 20px
+        height: fit-content
+        flex: 1
         &__title
             display: flex
             align-items: center

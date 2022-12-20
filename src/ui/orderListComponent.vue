@@ -15,13 +15,13 @@
             </div>
         </div>
         <ul class="order-list__list">
-            <li class="order-list__item">
+            <li class="order-list__item" v-for="(item, index) in orders" :key="index">
                 <div class="order-list__content">
-                    <span class="order-list__text">№1</span>
-                    <span class="order-list__text">Иванов Иван Иванович</span>
-                    <span class="order-list__text order-list__text_gray">Благоустройство могилы</span>
-                    <span class="order-list__text">#12235673</span>
-                    <span class="order-list__text">В работе</span>
+                    <span class="order-list__text order-list__index">№{{ index + 1 }}</span>
+                    <span class="order-list__text order-list__name">{{ item.customerName }}</span>
+                    <span class="order-list__text order-list__text_gray order-list__type">Благоустройство могилы</span>
+                    <span class="order-list__text order-list__id">{{ item.orderID }}</span>
+                    <span class="order-list__text order-list__status">В работе</span>
                 </div>
                 <div class="order-list__action-box">
                     <button class="order-list__action">
@@ -33,6 +33,9 @@
     </div>
 </template>
 <script lang="ts">
+import { link } from 'fs';
+import axios from '../api';
+import { graveOrder } from '../types/types';
 import iconComponent from './iconComponent.vue';
 export default {
     components: {
@@ -57,8 +60,19 @@ export default {
                 {title: "по Email"},
                 {title: "по дате создания"},
             ],
+            orders: [{}] as unknown as graveOrder,
             selected: "Сортировка"
         }
+    },
+    mounted() {
+        axios.order.getOrderList()
+        .then((res: any) => {
+            this.orders = res.data.orders.graveOrder
+            console.log(this.orders)
+        })
+        .catch((err: any) => {
+
+        })
     }
 }
 </script>
@@ -136,12 +150,16 @@ export default {
         &__content
             display: flex
             align-items: center
-            gap: 40px
+            flex-wrap: wrap
+            gap: 20px
         &__text
             font-family: 'Roboto'
             font-weight: 400
             font-size: 18px
             color: var(--brown)
+            white-space: nowrap
+            overflow: hidden
+            text-overflow: ellipsis
             &_gray
                 color: var(--gray)
         &__action
@@ -149,4 +167,14 @@ export default {
             background: none
             &-box
                 margin-left: auto
+        &__name
+            width: 280px
+        &__index
+            width: 40px
+        &__type
+            width: 217px
+        &__id
+            width: 50px
+        &__status
+            width: 74px
 </style>
