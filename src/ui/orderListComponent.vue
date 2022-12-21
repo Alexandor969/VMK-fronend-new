@@ -15,7 +15,7 @@
             </div>
         </div>
         <ul class="order-list__list">
-            <li class="order-list__item" v-for="(item, index) in orders" :key="index">
+            <li class="order-list__item" v-for="(item, index) in filteredOrders" :key="index">
                 <div class="order-list__content">
                     <span class="order-list__text order-list__index">№{{ index + 1 }}</span>
                     <span class="order-list__text order-list__name">{{ item.customerName }}</span>
@@ -33,10 +33,13 @@
     </div>
 </template>
 <script lang="ts">
-import { link } from 'fs';
 import axios from '../api';
 import { graveOrder } from '../types/types';
 import iconComponent from './iconComponent.vue';
+import dayjs from 'dayjs';
+import isBetween from 'dayjs/plugin/isBetween';
+import { boolean } from 'yup';
+dayjs.extend(isBetween)
 export default {
     components: {
         iconComponent
@@ -50,6 +53,12 @@ export default {
         },
         sorting: {
             type: Boolean
+        },
+        date: {
+            type: Array
+        },
+        filtered: {
+            type: Boolean
         }
     },
     data() {
@@ -60,14 +69,28 @@ export default {
                 {title: "по Email"},
                 {title: "по дате создания"},
             ],
-            orders: [{}] as unknown as graveOrder,
-            selected: "Сортировка"
+            orders: [] as unknown as graveOrder,
+            filteredOrders: [] as unknown as graveOrder,
+            selected: "Сортировка",
+        }
+    },
+    watch: {
+        date: {
+            handler(newValue, oldValue) {
+                if(this.filtered == true ) {
+                    this.filteredOrders = this.orders.filter( item => dayjs(item.createdAt).isBetween(this.date[0], this.date[[this.date.length - 1]]))
+                } else {
+                    this.filteredOrders = this.orders
+                }
+            },
+            deep: true
         }
     },
     mounted() {
         axios.order.getOrderList()
         .then((res: any) => {
             this.orders = res.data.orders.graveOrder
+            this.filteredOrders = this.orders
             console.log(this.orders)
         })
         .catch((err: any) => {

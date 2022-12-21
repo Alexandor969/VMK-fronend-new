@@ -33,7 +33,6 @@
 </template>
 <script lang="ts">
 import iconComponent from './iconComponent.vue';
-import { POSITION, useToast } from "vue-toastification";
 import axios from '../api'
 import { users } from '../types/types';
 export default {
@@ -49,7 +48,7 @@ export default {
                 {title: "по дате создания"},
             ],
             selected: "Сортировка",
-            users: [{}] as users
+            users: [] as unknown as users
         }
     },
     mounted() {

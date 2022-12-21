@@ -31,7 +31,7 @@ export default {
         }
     },
     mounted() {
-        store.commit('getUser')
+        setTimeout(() => {store.commit('getUser')}, 1000)
     }
 }
 </script>

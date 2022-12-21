@@ -1,6 +1,6 @@
 <template >
     <div class="orders">
-        <order-list-component :sorting= true />
+        <order-list-component :sorting= true :date="date" :filtered="filtered"/>
         <div class="filters">
             <span class="filters__title">
                 <icon-component width="24" height="24" name="filter" class="filters__title-icon"/>
@@ -13,7 +13,7 @@
                         <icon-component class="filter__title-icon" width="16" height="10" name="arrow"/>
                     </div>
                     <div class="filter__content">
-                        <Datepicker menu-class-name="filter__date"  v-model="date"  inline auto-apply range :enable-time-picker="false" locale="ru">
+                        <Datepicker menu-class-name="filter__date"  v-model="date"  inline auto-apply range @update:model-value="filtered = true" :enable-time-picker="false" locale="ru">
                             <template #calendar-header="{ index, day }">
                                 <div class="date__day" :class="index === 5 || index === 6 ? 'gold-color' : ''">
                                   {{ day }}
@@ -22,7 +22,7 @@
                         </Datepicker>
                     </div>
                 </div>
-                <div class="filters__item filter">
+                <!-- <div class="filters__item filter">
                     <div class="filter__title-box">
                         <span class="filter__title">Статус заказа</span>
                         <icon-component class="filter__title-icon" width="16" height="10" name="arrow"/>
@@ -32,8 +32,8 @@
                             <checkbox-component checkText="В работе"/>
                         </div>
                     </div>
-                </div>
-                <button-component class="filters__button" button-text="Сбросить фильтры"/>
+                </div> -->
+                <button-component class="filters__button" button-text="Сбросить фильтры" @click="clearFilters"/>
             </div>
         </div>
     </div>
@@ -52,7 +52,14 @@ export default {
     },
     data() {
         return {
-            date: {}
+            date: [],
+            filtered: false
+        }
+    },
+    methods: {
+        clearFilters() {
+            this.date = []
+            this.filtered = false
         }
     }
 }

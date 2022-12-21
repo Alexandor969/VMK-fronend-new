@@ -1,15 +1,14 @@
 import axios from "axios";
 import router from "../router/router";
+import { POSITION, useToast } from "vue-toastification";
 function getCookie(name: any) {
 	let matches = document.cookie.match(new RegExp("(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"));
 	return matches ? decodeURIComponent(matches[1]) : undefined;
 }
 
-// import store from '@/store';
-
 const instance: any = axios.create({
     baseURL: 'http://localhost:3001/api',
-    withCredentials: false,
+    withCredentials: true,
     headers: {
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
@@ -31,24 +30,17 @@ instance.interceptors.response.use( (config: any) => {
     }
     return config
 }, (error: any) => {
+    if(error.response.data.errorType == 'Expired') {
+        axios.put('http://localhost:3001/api/refresh', {}, {
+        }).then((res) => {
+            console.log(res)
+        }).catch((err) => {
+            console.log(err)
+        })
+    }
     if(error.response.status === 401) {
         router.push({name: 'login'})
     }
     throw error
 })
-
-// instance.interceptors.response.use((response: any) => {
-//     return response;
-// }, (err: any) => {
-//     // const {response: {status, data}} = err;
-//     // console.log(status);
-//     // console.log(data);
-//     // store.state.auth.isRefreshing = true;
-//     // console.log(store.state.auth.isRefreshing)
-//     // if(status == 401 && data.notificationType == 'userNotFound'){
-//     //     console.log('interceptors err => '+err);
-//     // }
-//     throw err;
-// })
-
 export default instance

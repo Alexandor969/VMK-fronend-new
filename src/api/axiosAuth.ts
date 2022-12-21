@@ -3,14 +3,17 @@ export default function(instance: any) {
         signIn(payload: {login: string, password: string}) {
             return instance.post('login', payload);
         },
-        authologin() {
-            return instance.post('authologin');
+        refresh() {
+            return instance.post('refresh');
         },
         // userData() {
         //     return instance.get('user/data');
         // },
         login(payload: {login: string, password: string}) {
             return instance.post('login', payload);
+        },
+        logout() {
+            return instance.post('logout');
         },
     }
 }

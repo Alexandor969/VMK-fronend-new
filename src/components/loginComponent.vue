@@ -62,9 +62,9 @@ export default {
             axios.auth.login(this.values)
             .then((res: any) => {
               if(this.cheked == true) {
-                document.cookie = `access_token=${res.data.accessToken}; samesite=strict; secure=true; max-age=3600`
+                document.cookie = `access_token=${res.data.accessToken}; max-age=3600`
               } else {
-                document.cookie = `access_token=${res.data.accessToken}; samesite=strict; secure=true; max-age=3600`
+                document.cookie = `access_token=${res.data.accessToken}; max-age=3600`
               }
               localStorage.setItem("roles", res.data.user.roles)
               this.$router.push({name: 'main'})

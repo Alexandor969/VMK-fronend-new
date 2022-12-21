@@ -12,15 +12,27 @@
                 <button-component class="settings__password" buttonText="сменить"/>
             </li>
         </ul>
-        <button-component buttonText="Выйти из профиля" name="logout" size="24" class="logout"/>
+        <button-component buttonText="Выйти из профиля" name="logout" size="24" class="logout" @click="logout"/>
     </div>
 </template>
 <script lang="ts">
 import buttonComponent from '../ui/buttonComponent.vue';
+import axios from '../api';
 export default {
- components: {
-    buttonComponent
- }
+    components: {
+        buttonComponent
+    },
+    methods: {
+        logout() {
+            axios.auth.logout()
+            .then((res: any) => {
+                document.cookie = "access_token=;max-age=-1";
+                localStorage.removeItem("roles")
+                this.$router.push({name: 'login'})
+                }
+            )
+        }
+    }
 }
 </script>
 <style lang="sass">
