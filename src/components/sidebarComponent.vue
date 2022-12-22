@@ -5,10 +5,10 @@
                 <icon-component class="sidebar__icon" name="home"/>
                 <span>Главная страница</span>
             </router-link>
-            <a href="#" class="sidebar__item">
+            <router-link to="/profile" class="sidebar__item">
                 <icon-component class="sidebar__icon" name="profile"/>
                 <span>Мой профиль</span>
-            </a>
+            </router-link>
             <router-link to="/orders" class="sidebar__item">
                 <icon-component class="sidebar__icon" name="paper"/>
                 <span>Список заказов</span>

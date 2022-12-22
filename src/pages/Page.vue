@@ -29,9 +29,6 @@ export default {
         openMenu() {
             this.menu = !this.menu
         }
-    },
-    mounted() {
-        setTimeout(() => {store.commit('getUser')}, 1000)
     }
 }
 </script>

@@ -7,6 +7,7 @@ import main from "../components/mainComponent.vue"
 import orders from "../components/ordersComponent.vue"
 import users from "../components/usersComponent.vue"
 import settings from "../components/settingsComponent.vue"
+import profile from "../components/profileComponent.vue"
 function getCookie(name: any) {
 	let matches = document.cookie.match(new RegExp("(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"));
 	return matches ? decodeURIComponent(matches[1]) : undefined;
@@ -45,6 +46,11 @@ const routes: Array<RouteRecordRaw> = [
                 path: '/settings',
                 name: 'settings',
                 component: settings,
+            },
+            {
+                path: '/profile',
+                name: 'profile',
+                component: profile,
             },
         ]
     },

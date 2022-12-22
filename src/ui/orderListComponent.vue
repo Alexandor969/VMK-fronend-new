@@ -2,7 +2,7 @@
     <div class="order-list" :class="{mt: margin}">
         <div class="order-list__title-box">
             <h2 class="order-list__title">Список заказов</h2>
-            <a href="#" class="order-list__link" v-if="link">смотреть все</a>
+            <router-link to="/orders" class="order-list__link" v-if="link">смотреть все</router-link>
             <div class="order-list__sort-box" v-if="sorting">
                 <div class="order-list__select-box">
                     <icon-component class="order-list__icon" name="select" width="20" height="20"/>
