@@ -25,18 +25,20 @@ instance.interceptors.request.use( (config: any) => {
 }, (error: any) => {})
 
 instance.interceptors.response.use( (config: any) => {
-    if(getCookie('access_token')) {
-        config.headers.authorization = `Bearer ${getCookie('access_token')}`
-    }
     return config
 }, (error: any) => {
+    const originalRequest = error.config
     if(error.response.data.errorType == 'Expired') {
-        axios.put('http://localhost:3001/api/refresh', {}, {
-        }).then((res) => {
-            console.log(res)
-        }).catch((err) => {
+        instance.post('http://localhost:3001/api/refresh', {}, {
+        }).then((res: any) => {
+            document.cookie = `access_token=${res.data.accessToken}; max-age=3600`
+            localStorage.setItem("roles", res.data.user.roles)
+            console.log(instance.request(error.config))
+        }).catch((err: any) => {
             console.log(err)
         })
+        return instance.request(originalRequest)
+
     }
     if(error.response.status === 401) {
         router.push({name: 'login'})
