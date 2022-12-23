@@ -78,6 +78,7 @@ export default {
         date: {
             handler(newValue, oldValue) {
                 if(this.filtered == true ) {
+                    //@ts-ignore
                     this.filteredOrders = this.orders.filter( item => dayjs(item.createdAt).isBetween(this.date[0], this.date[[this.date.length - 1]]))
                 } else {
                     this.filteredOrders = this.orders
