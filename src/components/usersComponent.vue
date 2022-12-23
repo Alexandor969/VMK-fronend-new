@@ -131,7 +131,6 @@ export default {
             // this.createUser.roles = this.role.join(' ')
             axios.users.createNewUser({...this.createUser, roles: this.role.join(' ')})
             .then((res: any) => {
-                console.log(2123)
                 this.toast.success('Пользователь создан', {
                 position: POSITION.BOTTOM_RIGHT,
                 timeout: 2000,
@@ -142,7 +141,6 @@ export default {
             }
             )
             .catch( (res: any) => {
-                console.log('это catch')
               this.toast.error(`${res.response.data.message}`, {
                 position: POSITION.BOTTOM_RIGHT,
                 timeout: 2000,

@@ -51,12 +51,10 @@ export default {
             .catch((err: any) => {
 
             })
-        console.log(localStorage.getItem('roles')?.split(','))
         let roles = null
         roles = localStorage.getItem('roles')?.split(',')
         //@ts-ignore
         this.role = roles[roles.length - 1]
-        console.log(this.role)
         switch(this.role) {
             case "USER":
                 this.role = "Пользователь"

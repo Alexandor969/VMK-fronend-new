@@ -491,11 +491,9 @@ export default {
             handler(newValue, oldValue) {
                 if(this.prepayment == true) {
                 this.createOrder.finalCost = this.prepay
-                console.log(this.discountPrice)
                 } else if(this.discount == true) {
                     if (this.createOrder.discountType == "percent") {
                         let disc = +(this.createOrder.amount * this.createOrder.discount / 100).toFixed(2)
-                        console.log(disc)
                         this.discountPrice = +(this.createOrder.amount - disc).toFixed(2)
                     } else if (this.createOrder.discountType == "currency") {
                         this.discountPrice = this.createOrder.amount - this.createOrder.discount

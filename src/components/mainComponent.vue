@@ -40,7 +40,6 @@ export default {
     methods: {
         isOrderTypeOpen() {
             this.isOrderType = true
-            console.log(this.isOrderType)
         }
     }
 }

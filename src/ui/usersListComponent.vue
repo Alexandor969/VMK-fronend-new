@@ -55,7 +55,6 @@ export default {
         axios.users.getUsersList([{}] as users)
         .then((res: any) => {
             this.users = res.data.users
-            console.log(this.users.map(item => item.user_info.fullName))
         })
         .catch((err: any) => {
 

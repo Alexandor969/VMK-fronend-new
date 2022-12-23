@@ -90,10 +90,8 @@ export default {
     mounted() {
         axios.order.getOrderList()
         .then((res: any) => {
-            console.log(res.data.orders.graveOrder)
             this.orders = res.data.orders.graveOrder
             this.filteredOrders = this.orders
-            console.log(this.orders)
         })
         .catch((err: any) => {
 
