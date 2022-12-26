@@ -3,12 +3,16 @@
         <h3 class="settings__title">Безопасность</h3>
         <ul class="settings__list">
             <li class="settings__item">
-                <span class="settings__text">Email</span>
-                <span class="settings__text_gray">testmail@mail.ru</span>
+                <div class="settings__text-box">
+                    <span class="settings__text">Email</span>
+                    <span class="settings__text_gray">testmail@mail.ru</span>
+                </div>
             </li>
             <li class="settings__item">
-                <span class="settings__text">Пароль</span>
-                <span class="settings__text_gray">********</span>
+                <div class="settings__text-box">
+                    <span class="settings__text">Пароль</span>
+                    <span class="settings__text_gray">********</span>
+                </div>
                 <button-component class="settings__password" buttonText="сменить"/>
             </li>
         </ul>
@@ -57,11 +61,17 @@ export default {
             border-radius: 0 0 5px 5px
         &__item
             display: flex
-            gap: 230px
             align-items: center
             height: 80px
             &:not(:last-child)
                 border-bottom: 1px solid var(--gray-prelight)
+            @media (max-width: 1030px)
+                height: auto
+                padding: 10px
+            @media (max-width: 460px)
+                flex-direction: column
+                align-items: stretch
+                gap: 30px
         &__text
             font-family: 'Roboto'
             font-weight: 600
@@ -72,12 +82,22 @@ export default {
                 width: auto
                 font-weight: 400
                 color: var(--gray)
+            &-box
+                display: flex
+                align-items: center
+                gap: 230px
+                @media (max-width: 1030px)
+                    flex-direction: column
+                    gap: 30px
+                    align-items: stretch
         &__password
             background-color: var(--brown)
             font-size: 14px
             color: var(--white)
             padding: 11px 27px
             margin-left: auto
+            @media (max-width: 460px)
+                margin-left: 0
     .logout
         gap: 10px
         color: var(--gold)

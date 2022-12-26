@@ -10,6 +10,7 @@ export  type users = [{
     email: string,
     region: string,
     roles: string[],
+    role: string,
     user_info: {
         contactEmail: string,
         dateBirth: string,

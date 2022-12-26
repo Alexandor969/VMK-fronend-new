@@ -13,7 +13,7 @@
                 <icon-component class="sidebar__icon" name="paper"/>
                 <span>Список заказов</span>
             </router-link>
-            <router-link to="/users" class="sidebar__item">
+            <router-link to="/users" class="sidebar__item" v-if="admin">
                 <icon-component class="sidebar__icon" name="users"/>
                 <span>Пользователи</span>
             </router-link>
@@ -21,7 +21,7 @@
                 <icon-component class="sidebar__icon" name="settings"/>
                 <span>Настройки</span>
             </router-link>
-            <a href="#" class="sidebar__item">
+            <a href="#" class="sidebar__item" v-if="admin">
                 <icon-component class="sidebar__icon" name="basket"/>
                 <span>Корзина</span>
             </a>
@@ -42,6 +42,22 @@ export default {
         menu: {
             type: Boolean,
             required: true,
+        }
+    },
+    data() {
+        return {
+            role: localStorage.getItem("roles")?.split(','),
+            admin: false
+        }
+    },
+    mounted() {
+        console.log(this.role)
+        if(this.role) {
+            if(this.role[this.role?.length - 1] == "ADMIN") {
+                this.admin = true
+            } else {
+                this.admin = false
+            }
         }
     }
 }

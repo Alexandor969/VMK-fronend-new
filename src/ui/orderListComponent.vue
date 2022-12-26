@@ -72,6 +72,7 @@ export default {
             orders: [] as unknown as graveOrder,
             filteredOrders: [] as unknown as graveOrder,
             selected: "Сортировка",
+            role: localStorage.getItem("roles")
         }
     },
     watch: {
@@ -90,7 +91,11 @@ export default {
     mounted() {
         axios.order.getOrderList()
         .then((res: any) => {
-            this.orders = res.data.orders.graveOrder
+            if(this.role == "USER") {
+                this.orders = res.data.orders.userGraveOrder
+            } else {
+                this.orders = res.data.orders.graveOrder
+            }
             this.filteredOrders = this.orders
         })
         .catch((err: any) => {

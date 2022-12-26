@@ -74,6 +74,8 @@ export default {
         display: grid
         grid-template-columns: 386px 9fr
         gap: 19px
+        @media (max-width: 1320px)
+            grid-template-columns: 100%
         &__image
             display: block
             width: 180px
@@ -99,6 +101,12 @@ export default {
             gap: 80px
             &:not(:last-child)
                 border-bottom: 1px solid var(--gray-prelight)
+            @media (max-width: 900px)
+                flex-direction: column
+                align-items: stretch
+                gap: 30px
+                padding: 20px
+                height: auto
         &__text
             display: block
             font-family: 'Roboto'
