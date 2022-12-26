@@ -115,6 +115,7 @@ export default {
                 width: 100%
                 display: flex
                 align-items: center
+                flex-wrap: wrap
                 gap: 30px
         &__link
             display: block
@@ -126,11 +127,14 @@ export default {
         &__sort
             display: flex
             align-items: center
+            flex-wrap: wrap
             gap: 10px
             &-box
                 display: flex
                 align-items: center
                 gap: 40px
+                @media (max-width: 500px)
+                    flex-wrap: wrap
             &-button
                 display: block
                 background: none

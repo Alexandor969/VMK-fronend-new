@@ -161,4 +161,6 @@ export default {
             display: grid
             grid-template-columns: repeat(2, calc( 50% - 15px ))
             gap: 30px
+            @media (max-width: 400px)
+                grid-template-columns: 100%
 </style>

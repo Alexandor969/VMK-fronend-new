@@ -551,7 +551,8 @@ export default {
         &__submit
             background: var(--gold)
             padding: 14px 30px
-            min-width: 386px
+            max-width: 386px
+            width: 100%
             margin-top: 60px
             font-family: 'Roboto'
             font-weight: 600
@@ -575,12 +576,18 @@ export default {
         &__list
             margin-top: 30px
             display: grid
-            grid-template-columns: repeat(3, 386px)
+            grid-template-columns: repeat(3, 4fr)
             gap: 30px
+            @media (max-width: 1200px)
+                grid-template-columns: repeat(2, 6fr)
+            @media (max-width: 1200px)
+                grid-template-columns: 100%
             &_sub
                 display: grid
                 grid-template-columns: repeat(3, 120px)
                 gap: 13px
+                @media (max-width: 430px)
+                    grid-template-columns: 100%
         &__select
             max-width: 360px
             width: 100%
@@ -598,8 +605,14 @@ export default {
         &__list
             margin-top: 30px
             display: grid
-            grid-template-columns: repeat(3, 386px)
+            grid-template-columns: repeat(3, 4fr)
             gap: 30px
+            @media (max-width: 1450px)
+                grid-template-columns: repeat(2, 4fr)
+                gap: 30px
+            @media (max-width: 990px)
+                grid-template-columns: 100%
+                gap: 30px
     .additional-service
         &__field
             width: 100%
@@ -619,8 +632,12 @@ export default {
                 color: var(--gray)
     .payment
         display: grid
-        grid-template-columns: repeat(2, 594px)
+        grid-template-columns: repeat(2, 6fr)
         gap: 30px
+        @media (max-width: 1230px)
+            display: flex
+            flex-direction: column-reverse
+            width: 100%
         &__label
             display: block
             font-family: 'Roboto'
@@ -655,6 +672,8 @@ export default {
             display: grid
             grid-template-columns: repeat(2, 200px)
             gap: 30px
+            @media (max-width: 450px)
+                grid-template-columns: 100%
     .radio
         &__list
             margin-top: 14px
@@ -677,11 +696,15 @@ export default {
         display: grid
         grid-template-columns: repeat(2, 178px)
         gap: 30px
+        @media (max-width: 450px)
+                grid-template-columns: 100%
     .pay
         margin-top: 30px
         display: grid
         grid-template-columns: repeat(2, 200px)
         gap: 30px
+        @media (max-width: 450px)
+                grid-template-columns: 100%
     .v-popper__arrow-container
         display: none
     .signature

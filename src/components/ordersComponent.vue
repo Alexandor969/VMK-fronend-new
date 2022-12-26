@@ -67,6 +67,8 @@ export default {
 <style lang="sass">
     .orders
         display: flex
+        @media (max-width: 1140px)
+            flex-direction: column-reverse
     .filters
         width: 288px
         margin-left: auto
@@ -75,6 +77,9 @@ export default {
         padding-bottom: 20px
         height: fit-content
         flex: none
+        @media (max-width: 1140px)
+            margin-left: 0
+            margin-bottom: 50px
         &__title
             display: flex
             align-items: center

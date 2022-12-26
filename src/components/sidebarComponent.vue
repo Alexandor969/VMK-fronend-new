@@ -53,8 +53,11 @@ export default {
         height: 100%
         @media (max-width: 760px)
             position: relative
+            z-index: 2
+            pointer-events: none
             width: 84px
             &.open
+                pointer-events: auto
                 .sidebar__list
                     width: 300px
                     @media (max-width: 360px)
