@@ -129,7 +129,7 @@ export default {
                 region: '',
             }
             // this.createUser.roles = this.role.join(' ')
-            axios.users.createNewUser({...this.createUser, roles: this.role.join(' ')})
+            axios.users.createNewUser({...this.createUser, roles: this.role.join(',')})
             .then((res: any) => {
                 this.toast.success('Пользователь создан', {
                 position: POSITION.BOTTOM_RIGHT,
@@ -205,6 +205,12 @@ export default {
             height: 80px
             &:not(:last-child)
                 border-bottom: 1px solid var(--gray-prelight)
+            @media (max-width: 980px)
+                flex-direction: column
+                align-items: stretch
+                gap: 30px
+                padding: 10px
+                height: auto
         &__text
             font-family: 'Roboto'
             font-weight: 600

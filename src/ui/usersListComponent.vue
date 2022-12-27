@@ -11,6 +11,10 @@
                     <icon-component class="users-list__icon" name="sort" width="20" height="20"/>
                     <button class="users-list__sort-button">по возрастанию</button>
                 </div>
+                <div class="users-list__select-box">
+                    <icon-component class="users-list__icon" name="select" width="20" height="20"/>
+                    <v-select v-model="role" :options="roles" label="title" :searchable="false"/>
+                </div>
             </div>
         </div>
         <ul class="users-list__list">
@@ -20,7 +24,7 @@
                     <span class="users-list__text users-list__name" v-if="item.user_info">{{item.user_info.fullName}}</span>
                     <span class="users-list__text users-list__text_gold users-list__text_min">{{item.username}}</span>
                     <span class="users-list__text users-list__email">{{ item.email }}</span>
-                    <span class="users-list__text users-list__text_min">Менеджер</span>
+                    <span class="users-list__text users-list__text_min">{{item.role}}</span>
                 </div>
                 <div class="users-list__action-box">
                     <button class="users-list__action">
@@ -35,6 +39,8 @@
 import iconComponent from './iconComponent.vue';
 import axios from '../api'
 import { users } from '../types/types';
+import roleTranslate from '../utils/roleTranslate'
+
 export default {
     components: {
         iconComponent
@@ -47,24 +53,35 @@ export default {
                 {title: "по Email"},
                 {title: "по дате создания"},
             ],
+            roles: [
+                {title: "Пользователь"},
+                {title: "Менеджер"},
+                {title: "Администратор"},
+            ],
             selected: "Сортировка",
+            role: "Роль",
             users: [] as unknown as users
         }
     },
     mounted() {
         axios.users.getUsersList([{}] as users)
         .then((res: any) => {
-            this.users = res.data.users
+            const userList =res.data.users
+            this.users = userList.map((item: any) => {
+                item.role = roleTranslate(item.roles[item.roles.length - 1])
+                return item
+            })
+            console.log(this.users)
         })
         .catch((err: any) => {
 
         })
-    }
+    },
 }
 </script>
 <style lang="sass">
     .users-list
-        max-width: 1050px
+        max-width: 1100px
         width: 100%
         margin-top: 60px
         &__title
@@ -78,6 +95,9 @@ export default {
                 display: flex
                 align-items: center
                 gap: 30px
+                @media (max-width: 1450px)
+                    display: block
+
         &__link
             display: block
             font-family: 'Roboto'
@@ -93,6 +113,9 @@ export default {
                 display: flex
                 align-items: center
                 gap: 40px
+                @media (max-width: 1450px)
+                    margin-top: 30px
+                    flex-wrap: wrap
             &-button
                 display: block
                 background: none
@@ -149,7 +172,7 @@ export default {
             &_gold
                 color: var(--gold)
             &_min
-                width: 121px
+                width: 140px
         &__action
             border: none
             background: none
