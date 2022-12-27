@@ -7,7 +7,7 @@ function getCookie(name: any) {
 }
 
 const instance: any = axios.create({
-    baseURL: 'http://localhost:3001/api',
+    baseURL: 'https://martzakaz.ru/api',
     withCredentials: true,
     headers: {
         'Access-Control-Allow-Origin': '*',
