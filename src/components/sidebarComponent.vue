@@ -110,8 +110,11 @@ export default {
             color: var(--brown)
             transition: .3s ease-in-out
             transition-property: background-color, color
+            &.active
+                color: var(--white)
+                background: var(--gray)
             @media (max-width: 760px)
-            padding: 28px 25px
+                padding: 28px 25px
             span
                 display: block
                 flex-shrink: 0

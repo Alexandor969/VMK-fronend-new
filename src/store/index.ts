@@ -4,6 +4,7 @@ import { user } from "../types/types";
 
 export default createStore({
     state: {
+        menuItem: "main"
     },
     mutations: {
     },
