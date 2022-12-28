@@ -29,7 +29,7 @@ instance.interceptors.response.use( (config: any) => {
 }, (error: any) => {
     const originalRequest = error.config
     if(error.response.data.errorType == 'Expired') {
-        instance.post('http://localhost:3001/api/refresh', {}, {
+        instance.post('https://martzakaz.ru/api/refresh', {}, {
         }).then((res: any) => {
             document.cookie = `access_token=${res.data.accessToken}; max-age=3600`
             localStorage.setItem("roles", res.data.user.roles)
