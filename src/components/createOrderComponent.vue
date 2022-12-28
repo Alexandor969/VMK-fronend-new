@@ -572,6 +572,8 @@ export default {
             margin-top: 30px
             &-item
                 margin-top: 14px
+            @media (max-width: 450px)
+                grid-template-columns: 100%
     .information
         &__list
             margin-top: 30px

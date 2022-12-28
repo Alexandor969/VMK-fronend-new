@@ -33,8 +33,11 @@ instance.interceptors.response.use( (config: any) => {
         }).then((res: any) => {
             document.cookie = `access_token=${res.data.accessToken}; max-age=3600`
             localStorage.setItem("roles", res.data.user.roles)
+            const originalRequest = error.config.headers.authorization = `Bearer ${res.data.accessToken}`
         }).catch((err: any) => {
-            console.log(err)
+            document.cookie = "access_token=;max-age=-1";
+            localStorage.removeItem("roles")
+            router.push({name: 'login'})
         })
         return instance.request(originalRequest)
 
