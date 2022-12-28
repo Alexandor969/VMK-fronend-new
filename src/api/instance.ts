@@ -33,10 +33,9 @@ instance.interceptors.response.use( (config: any) => {
         }).then((res: any) => {
             document.cookie = `access_token=${res.data.accessToken}; max-age=3600`
             localStorage.setItem("roles", res.data.user.roles)
-            return instance.request(originalRequest)
-        }).catch((err: any) => {
+            error.config.headers.authorization = `Bearer ${res.data.accessToken}`
+            return instance.request(error.config)
         })
-
     }
     if(error.response.status === 401) {
         router.push({name: 'login'})
