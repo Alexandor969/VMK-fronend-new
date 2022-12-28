@@ -27,13 +27,13 @@ instance.interceptors.request.use( (config: any) => {
 instance.interceptors.response.use( (config: any) => {
     return config
 }, (error: any) => {
-    const originalRequest = error.config
+    let originalRequest = error.config
     if(error.response.data.errorType == 'Expired') {
         instance.post('https://martzakaz.ru/api/refresh', {}, {
         }).then((res: any) => {
             document.cookie = `access_token=${res.data.accessToken}; max-age=3600`
             localStorage.setItem("roles", res.data.user.roles)
-            const originalRequest = error.config.headers.authorization = `Bearer ${res.data.accessToken}`
+            originalRequest = error.config.headers.authorization = `Bearer ${res.data.accessToken}`
         }).catch((err: any) => {
             document.cookie = "access_token=;max-age=-1";
             localStorage.removeItem("roles")
