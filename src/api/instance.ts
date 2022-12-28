@@ -34,7 +34,17 @@ instance.interceptors.response.use( (config: any) => {
             document.cookie = `access_token=${res.data.accessToken}; max-age=3600`
             localStorage.setItem("roles", res.data.user.roles)
         }).catch((err: any) => {
-            console.log(err)
+            instance.post('https://martzakaz.ru/api/logout')
+            .then((res: any) => {
+                document.cookie = "access_token=;max-age=-1";
+                localStorage.removeItem("roles")
+                router.push({name: 'login'})
+            })
+            .catch((err: any) => {
+                document.cookie = "access_token=;max-age=-1";
+                localStorage.removeItem("roles")
+                router.push({name: 'login'})
+            })
         })
         return instance.request(originalRequest)
 
