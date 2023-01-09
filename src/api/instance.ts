@@ -26,17 +26,22 @@ instance.interceptors.request.use( (config: any) => {
 
 instance.interceptors.response.use( (config: any) => {
     return config
-}, (error: any) => {
+}, async (error: any) => {
     let originalRequest = error.config
-    if(error.response.data.errorType == 'Expired') {
-        instance.post('https://martzakaz.ru/api/refresh', {}, {
-        }).then((res: any) => {
+    if(error.response.data.errorType == 'Expired' && !originalRequest.retry) {
+        try {
+            originalRequest.retry = true
+            const res = await instance.post('https://martzakaz.ru/api/refresh', {}, {
+            })
             document.cookie = `access_token=${res.data.accessToken}; max-age=3600`
             localStorage.setItem("roles", res.data.user.roles)
-        }).catch((err: any) => {
-        })
-        return instance.request(originalRequest)
-
+            return instance.request(originalRequest)
+        } catch (error) {
+            console.log(error)
+            document.cookie = "access_token=;max-age=-1";
+            localStorage.removeItem("roles")
+            router.push({name: 'login'})
+        }
     }
     if(error.response.status === 401) {
         router.push({name: 'login'})
