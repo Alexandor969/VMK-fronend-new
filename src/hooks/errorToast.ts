@@ -6,7 +6,7 @@ export default function toast (status:status, message: string) {
     switch(status) {
         case "error":
         toast.error(message, {
-            position: POSITION.BOTTOM_CENTER,
+            position: POSITION.BOTTOM_RIGHT,
             timeout: 2000,
             closeOnClick: true,
             pauseOnFocusLoss: true,

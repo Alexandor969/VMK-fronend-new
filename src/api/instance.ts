@@ -1,10 +1,7 @@
 import axios from "axios";
 import router from "../router/router";
-import { POSITION, useToast } from "vue-toastification";
-function getCookie(name: any) {
-	let matches = document.cookie.match(new RegExp("(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"));
-	return matches ? decodeURIComponent(matches[1]) : undefined;
-}
+import toast from "../hooks/errorToast";
+import getCookie from "../utils/UseCookie";
 
 const url = {
     local: 'http://localhost:3001/api',
@@ -33,7 +30,11 @@ instance.interceptors.response.use( (config: any) => {
     return config
 }, async (error: any) => {
     let originalRequest = error.config
-    if(error.response.data.errorType == 'Expired' && !originalRequest.retry) {
+    if(error.code == "ERR_NETWORK") {
+        toast('error', "Отсутствие соединения")
+        return
+    }
+    if(error.response?.data.errorType == 'Expired' && !originalRequest.retry) {
         try {
             originalRequest.retry = true
             const res = await instance.post('https://martzakaz.ru/api/refresh', {}, {
@@ -48,7 +49,8 @@ instance.interceptors.response.use( (config: any) => {
             router.push({name: 'login'})
         }
     }
-    if(error.response.status === 401) {
+    if(error.response?.status === 401) {
+        toast('error', "Вы не авторизованны")
         router.push({name: 'login'})
     }
     throw error

@@ -52,6 +52,7 @@ const login = async () => {
       }
       localStorage.setItem("roles", res.data.user.roles)
       router.push({name: 'main'})
+      toast('success', "Вы учспешно авторизовались")
     }
     catch (err: any) {
       toast('error', err.response.data.message)
