@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router"
-import page from "../pages/Page.vue"
-import Authorization from "../pages/Authorization.vue"
+import page from "../views/Page.vue"
+import Authorization from "../views/Authorization.vue"
 import login from "../components/loginComponent.vue"
 import createOrder from "../components/createOrderComponent.vue"
 import main from "../components/mainComponent.vue"

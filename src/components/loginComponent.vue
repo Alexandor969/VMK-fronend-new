@@ -1,8 +1,8 @@
 <template >
     <div class="login__container">
-        <img :src="images.logo" alt="Март" class="login__logo">
+        <img src="@/assets/img/svg/logo.svg" alt="Март" class="login__logo">
         <h2 class="login__title">Вход в приложение</h2>
-        <form @submit.prevent="validate" action="" method="post" class="login__form">
+        <form @submit.prevent="submit" action="" method="post" class="login__form">
           <input-component v-model:meaning="values.login" @input="errors.login= ''" inputType="text" inputName="login" inputContent="admin" inputLabel="Логин" :inputError="errors.login" />
           <input-component v-model:meaning="values.password" @input="errors.password= ''"  inputType="password" inputName="password" inputAutocomplete="on" inputContent="********" inputLabel="Пароль" :inputError="errors.password" />
           <label class="login__save-box">
@@ -16,82 +16,65 @@
         </form>
     </div>
 </template>
-<script lang="ts">
-import logo from "../assets/img/svg/logo.svg"
+<script setup lang="ts">
 
 import inputComponent from '../ui/inputComponent.vue';
 import buttonComponent from '../ui/buttonComponent.vue';
 import * as yup from "yup"
 import { POSITION, useToast } from "vue-toastification";
+import toast from "../hooks/errorToast"
 import axios from '../api'
-export default {
-    components: {
-      inputComponent,
-      buttonComponent,
-    },
-    data() {
-      return {
-        images: {
-          logo: logo
-        },
-        toast: useToast(),
-        values: {
-          login: "",
-          password: "",
-        },
-        errors: {
-          login: "",
-          password: "",
-        },
-        loginShema: yup.object({
-          login: yup.string().required('Введите логин'),
-          password: yup.string().required('Введите пароль'),
-        }),
-        cheked: false
-      }
-    },
-    methods: {
-      validate() {
-        this.loginShema
-        .validate(this.values, { abortEarly: false })
-          .then(() => {
-            this.errors = {
-              login: "",
-              password: ""
-            }
-            axios.auth.login(this.values)
-            .then((res: any) => {
-              if(this.cheked == true) {
-                document.cookie = `access_token=${res.data.accessToken}; max-age=3600`
-              } else {
-                document.cookie = `access_token=${res.data.accessToken}; max-age=3600`
-              }
-              localStorage.setItem("roles", res.data.user.roles)
-              this.$router.push({name: 'main'})
+import { ref } from "vue"
+import router from '../router/router';
 
-            }
-            )
-            .catch( (res: any) => {
-              this.toast.error(`${res.response.data.message}`, {
-                position: POSITION.BOTTOM_CENTER,
-                timeout: 2000,
-                closeOnClick: true,
-                pauseOnFocusLoss: true,
-                pauseOnHover: true,
-              })
-            }
-            )
-          })
-          .catch((err: any) => {
-            // @ts-ignore
-            err.inner.forEach((error) => {
-              // @ts-ignore
-              this.errors[error.path] = error.message;
-            });
-          })
+// const toast = useToast()
+const values = ref({
+  login: "",
+  password: "",
+})
+const errors = ref({
+  login: "",
+  password: "",
+})
+const loginShema = yup.object({
+  login: yup.string().required('Введите логин'),
+  password: yup.string().required('Введите пароль'),
+})
+let cheked = ref(false)
+
+const login = async () => {
+    try {
+      const res = await axios.auth.login(values.value)
+      if(cheked.value == true) {
+        document.cookie = `access_token=${res.data.accessToken}; max-age=3600`
+      } else {
+        document.cookie = `access_token=${res.data.accessToken}; max-age=3600`
       }
+      localStorage.setItem("roles", res.data.user.roles)
+      router.push({name: 'main'})
+    }
+    catch (err: any) {
+      toast('error', err.response.data.message)
     }
 }
+
+async function submit() {
+        try {
+          await loginShema.validate(values.value, { abortEarly: false })
+          errors.value = {
+              login: "",
+              password: ""
+          }
+          return await login()
+        }
+        catch(err: any) {
+          // @ts-ignore
+          err.inner.forEach((error) => {
+          // @ts-ignore
+          errors.value[error.path] = error.message;
+          });
+        }
+  }
 </script>
 <style lang="sass">
 .login

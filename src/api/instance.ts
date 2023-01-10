@@ -6,8 +6,13 @@ function getCookie(name: any) {
 	return matches ? decodeURIComponent(matches[1]) : undefined;
 }
 
+const url = {
+    local: 'http://localhost:3001/api',
+    server: 'https://martzakaz.ru/api'
+}
+
 const instance: any = axios.create({
-    baseURL: 'https://martzakaz.ru/api',
+    baseURL: url.local,
     withCredentials: true,
     headers: {
         'Access-Control-Allow-Origin': '*',
