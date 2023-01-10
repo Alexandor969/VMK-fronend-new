@@ -37,7 +37,7 @@ instance.interceptors.response.use( (config: any) => {
     if(error.response?.data.errorType == 'Expired' && !originalRequest.retry) {
         try {
             originalRequest.retry = true
-            const res = await instance.post('https://martzakaz.ru/api/refresh', {}, {
+            const res = await instance.post(`${url.local}/refresh`, {}, {
             })
             document.cookie = `access_token=${res.data.accessToken}; max-age=3600`
             localStorage.setItem("roles", res.data.user.roles)
